@@ -2,7 +2,7 @@ import express, {Request, Response} from "express";
 import cors from "cors";
 import { routes } from "./routes";
 
-const expressPort = 3001;
+const expressPort = 3011;
 const app = express();
 // use json for API routes
 app.use(express.json());

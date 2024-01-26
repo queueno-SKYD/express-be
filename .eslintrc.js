@@ -41,10 +41,6 @@ module.exports = {
       "error",
       "double"
     ],
-    "semi": [
-      "error",
-      "always"
-    ],
     "eqeqeq": 1,
     "eol-last": 1,
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],

@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import cors from "cors";
-import { routes } from "./routes";
+import { routes } from "./router/routes";
 
 const expressPort = 3011;
 const app = express();
@@ -20,6 +20,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("INFO :: Root route called");
 });
 
-app.listen(expressPort, () => {
+app.listen(expressPort,async () => {
+  // await getDatabase();
   console.log("INFO :: Webserver started on port " + expressPort);
 });

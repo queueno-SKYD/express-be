@@ -1,21 +1,18 @@
 import { Request, Response } from "express";
-import { registerValidation } from "../../validation";
+import { UserQuery } from "../../query";
+import { HTTPResponse, HttpStatus } from "../../httpResponse";
 
-export const RegisterUser = (req: Request, res: Response) => {
-  const msg = "Bhai ho gya pass";
-  const body = req.body;
-
-  const { error } = registerValidation.validate(body);
-
-  if (error) {
-    return res.status(400).send(error.details);
-  }
-
-  if (body.password !== body.passwordConfirm){
-    return res.status(400).send({
-      message: "ERROR :: Passwords do not match!"
-    });
-  }
-  res.send({request: req.body, msg: msg});
-  return ;
+export const Login = (req: Request, res: Response) => {
+  const {email} = req.body;
+  UserQuery.getUser(0,email).then((response)=>{
+    console.log("response --->",response);
+    return res.status(200).send(
+      new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message:"User Successfuly Login",data:response})
+    );
+  }).catch((err)=>{
+    return res.status(200).send(
+      new HTTPResponse({statusCode: HttpStatus.WARNING.code, httpStatus: HttpStatus.WARNING.status, message:err})
+    );
+  })
+  
 };

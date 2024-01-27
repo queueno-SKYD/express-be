@@ -4,7 +4,7 @@ import { ResultSetHeader } from "mysql2";
 
 interface IUserModalQuery {
   save(user: UserModel): Promise<UserModel>;
-  // getById(userId: UserModel["userId"]): Promise<UserModel | undefined>;
+  getUser(userId: UserModel["userId"], email: UserModel["email"]): Promise<UserModel | undefined>;
   // update(user: UserModel): Promise<number>;
   // delete(userId: UserModel["userId"]): Promise<number>;
   // deleteAll(): Promise<number>;
@@ -24,6 +24,27 @@ class UserModalQuery implements IUserModalQuery {
             console.log(result)
             console.log(fields)
             resolve(user)
+          }
+        }
+      )
+    });
+  }
+
+  public async getUser(userId: number | undefined, email: string | undefined): Promise<UserModel | undefined > {
+    return new Promise((resolve, reject) => {
+      pool.query<UserModel[]>(
+        `SELECT * FROM  USER_TABLE WHERE email = ? or userId = ?`,
+        [email, userId],
+        (err, result) => {
+          if (err) {
+            console.log(err)
+            reject(err)
+          } else {
+            const data = result[0];
+            if(!data){
+              reject("User Not Found");
+            }
+            resolve(data)
           }
         }
       )

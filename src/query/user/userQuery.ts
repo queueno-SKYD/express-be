@@ -33,7 +33,7 @@ class UserModalQuery implements IUserModalQuery {
   public async getUser(userId: number | undefined, email: string | undefined): Promise<UserModel | undefined > {
     return new Promise((resolve, reject) => {
       pool.query<UserModel[]>(
-        `SELECT * FROM  USER_TABLE WHERE email = ? or userId = ?`,
+        "SELECT * FROM  USER_TABLE WHERE email = ? or userId = ?",
         [email, userId],
         (err, result) => {
           if (err) {

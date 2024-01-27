@@ -11,6 +11,7 @@ interface IHttpStatus {
   NOT_FOUND: IStatus;
   INTERNAL_SERVER_ERROR: IStatus;
   WARNING: IStatus;
+  UN_AUTHORISED:IStatus
 }
 
 const HttpStatus: IHttpStatus = {
@@ -20,7 +21,8 @@ const HttpStatus: IHttpStatus = {
   BAD_REQUEST: {code: 200, status: "BAD_REQUEST"},
   NOT_FOUND: {code: 200, status: "NOT_FOUND"},
   INTERNAL_SERVER_ERROR: {code: 200, status: "INTERNAL_SERVER_ERROR"},
-  WARNING: {code: 200, status: "WARNING"}
+  WARNING: {code: 200, status: "WARNING"},
+  UN_AUTHORISED: {code: 401, status: "Alert"}
 }
 
 export default HttpStatus;

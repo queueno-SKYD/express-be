@@ -15,14 +15,14 @@ const poolConfig: PoolOptions = {
 const pool = mysql.createPool(poolConfig);
 
 export async function getDatabase() {
-    console.log(initDBQuery)
-   pool.query(initDBQuery, [],(err, result)=>{
+  console.log(initDBQuery)
+  pool.query(initDBQuery, [],(err, result)=>{
     if(err){
       console.log("Error --> ", err);
     }else{
       console.log("Result --> ", result);
     }
-   })
+  })
 }
 
 export default pool;

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { registerValidation } from "../validation/register.validation";
+import { registerValidation } from "../../validation";
 
-export const Register = (req: Request, res: Response) => {
+export const RegisterUser = (req: Request, res: Response) => {
   const msg = "Bhai ho gya pass";
   const body = req.body;
 
@@ -17,4 +17,5 @@ export const Register = (req: Request, res: Response) => {
     });
   }
   res.send({request: req.body, msg: msg});
+  return ;
 };

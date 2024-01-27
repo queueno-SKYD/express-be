@@ -16,6 +16,7 @@ app.use(cors({
 routes(app);
 
 app.get("/", (req: Request, res: Response) => {
+  console.log(req)
   res.send("INFO :: Root route called");
 });
 

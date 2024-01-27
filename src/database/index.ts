@@ -11,7 +11,7 @@ const poolConfig: PoolOptions = {
   connectionLimit: env.MYSQL_CONNECTION_LIMIT,
 };
 
-const pool = mysql.createPool(poolConfig).promise();
+const pool = mysql.createPool(poolConfig);
 
 export async function getDatabase() {
   try {

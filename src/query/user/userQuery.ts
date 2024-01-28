@@ -1,6 +1,7 @@
 import pool from "../../database";
 import UserModel from "../../model/userModel";
 import { ResultSetHeader } from "mysql2";
+import logger from"../../../logger";
 
 interface IUserModalQuery {
   save(user: UserModel): Promise<UserModel>;
@@ -16,14 +17,19 @@ class UserModalQuery implements IUserModalQuery {
       pool.query<ResultSetHeader>(
         "INSERT INTO USER_TABLE (firstName, lastName, email, imageURL, createdBy, password) VALUES(?,?,?,?,?,?)",
         [user.firstName, user?.lastName, user.email, user?.imageURL, user?.createdBy, user.password],
-        (err, result, fields) => {
+        async (err, result) => {
           if (err) {
-            console.log(err)
+            logger.fatal(err)
             reject(err)
           } else {
-            console.log(result)
-            console.log(fields)
-            resolve(user)
+            const userId = result.insertId;
+            logger.info({createdUserId: userId}, "user created")
+            const userData = await this.getUser(userId, user.email)
+            if (userData) {
+              resolve(userData)
+            } else {
+              reject("Something went wrong! user not created")
+            }
           }
         }
       )
@@ -33,17 +39,19 @@ class UserModalQuery implements IUserModalQuery {
   public async getUser(userId: number | undefined, email: string | undefined): Promise<UserModel | undefined > {
     return new Promise((resolve, reject) => {
       pool.query<UserModel[]>(
-        `SELECT * FROM  USER_TABLE WHERE email = ? or userId = ?`,
+        "SELECT * FROM  USER_TABLE WHERE email = ? or userId = ?",
         [email, userId],
         (err, result) => {
           if (err) {
-            console.log(err)
+            logger.fatal(err)
             reject(err)
           } else {
             const data = result[0];
             if(!data){
               reject("User Not Found");
+              logger.info("User Not Found")
             }
+            logger.info(data, "found user")
             resolve(data)
           }
         }

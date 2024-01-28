@@ -1,8 +1,8 @@
 import express, {Request, Response} from "express";
 import cors from "cors";
 import { routes } from "./router/routes";
+import env from "./env";
 
-const expressPort = 3011;
 const app = express();
 // use json for API routes
 app.use(express.json());
@@ -20,7 +20,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("INFO :: Root route called");
 });
 
-app.listen(expressPort,async () => {
+app.listen(env.EXPRESS_PORT ,async () => {
   // await getDatabase();
-  console.log("INFO :: Webserver started on port " + expressPort);
+  console.log("INFO :: Webserver started on port " + env.EXPRESS_PORT);
 });

@@ -11,4 +11,5 @@ export default interface UserModel extends RowDataPacket {
   createdAt?: Date;
   userId: number;
   password: string;
+  userType: number;
 }

@@ -7,4 +7,5 @@ export const registerValidation = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().regex(constant.PASSWORD_REGEX).required(),
   passwordConfirm: Joi.string().required(),
+  userType: Joi.number().max(1).min(0),
 });

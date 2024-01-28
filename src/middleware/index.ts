@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { HTTPResponse, HttpStatus } from "../httpResponse";
 import { UserQuery } from "../query";
-import { validatePassword } from "../util";
+import { comparePassword } from "../util";
 
 export const UserAuthenticate = (req: Request, res: Response, next: NextFunction)=>{
   const {email,password} = req.body;
-  UserQuery.getUser(0, email).then((response)=>{
+  UserQuery.getUser(0, email).then(async (response) => {
     console.log("response --->",response);
     if(response){
-      if(validatePassword(response.password, password)){
+      if(await comparePassword(password, response.password)){
         next();
       }else{
         res.status(200).send(

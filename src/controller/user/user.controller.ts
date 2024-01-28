@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UserQuery } from "../../query";
 import { registerValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
+import { encryptPassword } from "../../util";
 
 export const RegisterUser = async (req: Request, res: Response) => {
   const body = req.body;
@@ -19,7 +20,17 @@ export const RegisterUser = async (req: Request, res: Response) => {
       new HTTPResponse({statusCode: HttpStatus.WARNING.code, httpStatus: HttpStatus.WARNING.status, message: "Password does not match"})
     );
   }
-  const data = await UserQuery.save(body)
+  //#region encrypt password
+  const hashedPassword = await encryptPassword(body.password);
+  //#endregion
+
+  //#region change password in save 
+  const saveData = {
+    ...body,
+    password: hashedPassword
+  }
+  //#endregion
+  const data = await UserQuery.save(saveData)
   res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "User created", data}));
   return ;
 };

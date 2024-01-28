@@ -4,5 +4,5 @@ import { PathName } from "./pathName";
 import { UserAuthenticate } from "../middleware";
 export const routes = (router: Router) => {
   router.post(PathName.Register, RegisterUser);
-  router.post(PathName.Login,UserAuthenticate, Login);
+  router.post(PathName.Login, UserAuthenticate, Login);
 };

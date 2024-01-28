@@ -10,6 +10,7 @@ interface envType {
   MYSQL_CONNECTION_LIMIT: number;
   ENCRYPTION_SECRET?: string;
   ENCRYPTION_SALT_ROUND: number;
+  EXPRESS_PORT: number;
 }
 
 const env: envType = { 
@@ -21,6 +22,7 @@ const env: envType = {
   MYSQL_CONNECTION_LIMIT: Number(process.env.MYSQL_CONNECTION_LIMIT )|| 12,
   ENCRYPTION_SECRET: process.env.ENCRYPTION_SECRET,
   ENCRYPTION_SALT_ROUND: Number(process.env.ENCRYPTION_SALT_ROUND),
+  EXPRESS_PORT: Number(process.env.EXPRESS_PORT) || 3001,
 };
 
 export default env;

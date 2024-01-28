@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node src/index.ts",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/index.ts | npx pino-pretty",
     "lint": "npx eslint --ext .ts --ext .js src/",
     "lint:fix": "npx eslint --fix --ext .ts --ext .js src/"
   },
@@ -27,6 +27,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.0",
     "nodemon": "^3.0.3",
+    "pino": "^8.17.2",
     "reflect-metadata": "^0.2.1"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
     "eslint": "^8.56.0",
+    "pino-pretty": "^10.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },

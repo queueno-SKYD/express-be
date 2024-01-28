@@ -16,11 +16,11 @@ interface IHttpStatus {
 
 const HttpStatus: IHttpStatus = {
   OK: {code: 200, status: "OK"},
-  CREATED: {code: 200, status: "CREATED"},
-  NO_CONTENT: {code: 200, status: "NO_CONTENT"},
-  BAD_REQUEST: {code: 200, status: "BAD_REQUEST"},
-  NOT_FOUND: {code: 200, status: "NOT_FOUND"},
-  INTERNAL_SERVER_ERROR: {code: 200, status: "INTERNAL_SERVER_ERROR"},
+  CREATED: {code: 201, status: "CREATED"},
+  NO_CONTENT: {code: 204, status: "NO_CONTENT"},
+  BAD_REQUEST: {code: 400, status: "BAD_REQUEST"},
+  NOT_FOUND: {code: 404, status: "NOT_FOUND"},
+  INTERNAL_SERVER_ERROR: {code: 500, status: "INTERNAL_SERVER_ERROR"},
   WARNING: {code: 200, status: "WARNING"},
   UN_AUTHORISED: {code: 401, status: "Alert"}
 }

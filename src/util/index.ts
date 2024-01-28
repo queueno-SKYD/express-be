@@ -1,5 +1,7 @@
 import * as constant from "./consts";
 import { encryptPassword, comparePassword } from "./encrypt";
+import JWT from "jsonwebtoken";
+import env from "../env";
 
 const checkPasswordStrength = (password: string): string[] => {
   const errors: string[] = [];
@@ -27,9 +29,19 @@ const checkPasswordStrength = (password: string): string[] => {
   return errors;
 }
 
+type JWTTokenType = {
+  userId: number
+}
+
+const signJWTToken = (payload: JWTTokenType) : string => {
+  return JWT.sign(payload, env.JWT_SECRET);
+}
+
 export {
   constant,
   checkPasswordStrength,
   encryptPassword,
   comparePassword,
+  signJWTToken,
+  JWTTokenType
 };

@@ -34,3 +34,10 @@ export const RegisterUser = async (req: Request, res: Response) => {
   res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "User created", data}));
   return ;
 };
+
+export const Me = async (_: Request, res: Response) => {
+  const user = res.locals.user;
+  return res.status(200).send(
+    new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Success", data: user})
+  );
+}

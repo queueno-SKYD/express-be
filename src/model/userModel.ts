@@ -9,6 +9,6 @@ export default interface UserModel extends RowDataPacket {
   deleted?: boolean;
   deleteBy?: number;
   createdAt?: Date;
-  userId?: number;
+  userId: number;
   password: string;
 }

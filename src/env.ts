@@ -8,7 +8,7 @@ interface envType {
   MYSQL_PASSWORD: string; 
   MYSQL_DATABASE: string; 
   MYSQL_CONNECTION_LIMIT: number;
-  ENCRYPTION_SECRET?: string;
+  JWT_SECRET: string;
   ENCRYPTION_SALT_ROUND: number;
   EXPRESS_PORT: number;
 }
@@ -20,7 +20,7 @@ const env: envType = {
   MYSQL_PASSWORD: process.env.MYSQL_PASSWORD || "root",
   MYSQL_DATABASE: process.env.MYSQL_DATABASE || "skyd_db",
   MYSQL_CONNECTION_LIMIT: Number(process.env.MYSQL_CONNECTION_LIMIT ) || 12,
-  ENCRYPTION_SECRET: process.env.ENCRYPTION_SECRET,
+  JWT_SECRET: process.env.JWT_SECRET || "secreatkeyforJWT",
   ENCRYPTION_SALT_ROUND: Number(process.env.ENCRYPTION_SALT_ROUND),
   EXPRESS_PORT: Number(process.env.EXPRESS_PORT) || 3001,
 };

@@ -2,6 +2,7 @@ import express, {Request, Response} from "express";
 import cors from "cors";
 import { routes } from "./router/routes";
 import env from "./env";
+import { UserAuthenticate } from "./middleware";
 
 const app = express();
 // use json for API routes
@@ -11,7 +12,7 @@ app.use(cors({
   credentials: true,
   origin: ["http://localhost:3000"]
 }));
-
+app.use(UserAuthenticate)
 // import routes from router
 routes(app);
 

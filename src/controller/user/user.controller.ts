@@ -41,3 +41,8 @@ export const Me = async (_: Request, res: Response) => {
     new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Success", data: user})
   );
 }
+export const NotFound = async (_: Request, res: Response) => {
+  return res.status(404).send(
+    new HTTPResponse({statusCode: HttpStatus.NOT_FOUND.code, httpStatus: HttpStatus.NOT_FOUND.status, message: "Not Found"})
+  );
+}

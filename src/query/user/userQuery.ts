@@ -15,8 +15,8 @@ class UserModalQuery implements IUserModalQuery {
   public async save(user: UserModel): Promise<UserModel> {
     return new Promise((resolve, reject) => {
       pool.query<ResultSetHeader>(
-        "INSERT INTO USER_TABLE (firstName, lastName, email, imageURL, createdBy, password) VALUES(?,?,?,?,?,?)",
-        [user.firstName, user?.lastName, user.email, user?.imageURL, user?.createdBy, user.password],
+        "INSERT INTO USER_TABLE (firstName, lastName, email, imageURL, createdBy, password, userType) VALUES(?,?,?,?,?,?,?)",
+        [user.firstName, user?.lastName, user.email, user?.imageURL, user?.createdBy, user.password, user?.userType || 0],
         async (err, result) => {
           if (err) {
             logger.fatal(err)

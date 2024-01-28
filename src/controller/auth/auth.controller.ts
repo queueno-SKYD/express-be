@@ -8,7 +8,7 @@ import env from "./../../env";
 
 export const Login = (req: Request, res: Response) => {
   const {email, password} = req.body;
-  UserQuery.getUser(0, email).then(async (response) => {
+  UserQuery.getUser(0, email, true).then(async (response) => {
     if (response) {
       if (await comparePassword(password, response.password)) {
         // #region add JWT token

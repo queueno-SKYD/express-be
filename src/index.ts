@@ -3,6 +3,7 @@ import cors from "cors";
 import { routes } from "./router/routes";
 import env from "./env";
 import { UserAuthenticate } from "./middleware";
+// import { HTTPResponse, HttpStatus } from "./httpResponse";
 
 const app = express();
 // use json for API routes
@@ -13,6 +14,12 @@ app.use(cors({
   origin: ["http://localhost:3000"]
 }));
 app.use(UserAuthenticate)
+
+// app.use((_: Request, res: Response) => {
+//   res.status(404).send(
+//     new HTTPResponse({statusCode: HttpStatus.NOT_FOUND.code, httpStatus: HttpStatus.NOT_FOUND.status, message: "path not found"})
+//   ).json({ message: "Not Found" });
+// });
 // import routes from router
 routes(app);
 

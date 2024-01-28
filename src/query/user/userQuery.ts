@@ -1,7 +1,7 @@
 import pool from "../../database";
 import UserModel from "../../model/userModel";
 import { ResultSetHeader } from "mysql2";
-import logger from"../../../logger";
+import logger from "../../../logger";
 
 interface IUserModalQuery {
   save(user: UserModel): Promise<UserModel>;
@@ -47,7 +47,7 @@ class UserModalQuery implements IUserModalQuery {
             reject(err)
           } else {
             const data = result[0];
-            if(!data){
+            if (!data){
               reject("User Not Found");
               logger.info("User Not Found")
             }

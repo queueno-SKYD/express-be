@@ -17,9 +17,9 @@ const pool = mysql.createPool(poolConfig);
 export async function getDatabase() {
   console.log(initDBQuery)
   pool.query(initDBQuery, [],(err, result)=>{
-    if(err){
+    if (err){
       console.log("Error --> ", err);
-    }else{
+    } else {
       console.log("Result --> ", result);
     }
   })

@@ -15,7 +15,7 @@ export const RegisterUser = async (req: Request, res: Response) => {
     );
   }
 
-  if (body.password !== body.passwordConfirm){
+  if (body.password !== body.passwordConfirm) {
     return res.status(200).send(
       new HTTPResponse({statusCode: HttpStatus.WARNING.code, httpStatus: HttpStatus.WARNING.status, message: "Password does not match"})
     );

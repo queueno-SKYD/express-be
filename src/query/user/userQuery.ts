@@ -47,7 +47,7 @@ class UserModalQuery implements IUserModalQuery {
             reject(err)
           } else {
             const data = result[0];
-            if (!data){
+            if (!data) {
               reject("User Not Found");
               logger.info("User Not Found")
             }

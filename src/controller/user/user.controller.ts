@@ -3,6 +3,7 @@ import { UserQuery } from "../../query";
 import { registerValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { encryptPassword } from "../../util";
+import { sendRegisterationMail } from "../../services";
 
 export const RegisterUser = async (req: Request, res: Response) => {
   const body = req.body;
@@ -32,6 +33,8 @@ export const RegisterUser = async (req: Request, res: Response) => {
   //#endregion
   const data = await UserQuery.save(saveData)
   res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "User created", data}));
+  /** send  Registration  mail*/
+  sendRegisterationMail(data.firstName + " " + data.lastName,data.email) 
   return ;
 };
 
@@ -45,4 +48,16 @@ export const NotFound = async (_: Request, res: Response) => {
   return res.status(404).send(
     new HTTPResponse({statusCode: HttpStatus.NOT_FOUND.code, httpStatus: HttpStatus.NOT_FOUND.status, message: "Not Found"})
   );
+}
+
+/**
+ * By Kanhaiya lal 
+ * Get all Users Api 
+ */
+export const GetAllUsers = async (req: Request, res: Response) => {
+  const {pIndex} = req.body;
+  const users = await UserQuery.getAllUsers(pIndex | 0);
+  return res.status(200).send(
+    new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Success",data:users})
+  )
 }

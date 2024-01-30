@@ -2,17 +2,20 @@ import pool from "../../database";
 import UserModel from "../../model/userModel";
 import { ResultSetHeader } from "mysql2";
 import logger from "../../../logger";
-import { createUserQuery, getUserAllQuery, getUserQuery } from "./userQuery.sql";
+import { createUserQuery, getAllUserQuery, getUserAllQuery, getUserQuery } from "./userQuery.sql";
+import { QUERY_PAGINATION } from "../../util/consts";
 
 interface IUserModalQuery {
   save(user: UserModel): Promise<UserModel>;
   getUser(userId: UserModel["userId"], email: UserModel["email"], getPassword?: boolean): Promise<UserModel | undefined>;
+  getAllUsers(pIndex: number): Promise<UserModel[] | undefined>;
   // update(user: UserModel): Promise<number>;
   // delete(userId: UserModel["userId"]): Promise<number>;
   // deleteAll(): Promise<number>;
 }
 
 class UserModalQuery implements IUserModalQuery {
+  
   public async save(user: UserModel): Promise<UserModel> {
     return new Promise((resolve, reject) => {
       pool.query<ResultSetHeader>(
@@ -62,6 +65,34 @@ class UserModalQuery implements IUserModalQuery {
         reject("incorrect input: userId and email can not be null")
         return;
       }
+    });
+  }
+
+  /** 
+   * get All users Query with Paginations
+   * ByKanhaiya lal 
+   */
+  public async getAllUsers(pIndex: number): Promise<UserModel[] | undefined> {
+    return new Promise((resolve, reject) => {
+      pool.query<UserModel[]>(
+        getAllUserQuery,
+        [pIndex * QUERY_PAGINATION],
+        (err, result) => {
+          if (err) {
+            logger.fatal(err)
+            reject(undefined);
+          } else {
+            const data = result;
+            if (!data) {
+              logger.info("data Not Found")
+              reject(undefined);
+            }
+            logger.info(data, "All Users data ")
+            resolve(data)
+          }
+        }
+      )
+      
     });
   }
   // getById(userId: UserModel["userId"]): Promise<UserModel | undefined>;

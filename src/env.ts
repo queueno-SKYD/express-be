@@ -11,6 +11,8 @@ interface envType {
   JWT_SECRET: string;
   ENCRYPTION_SALT_ROUND: number;
   EXPRESS_PORT: number;
+  GMAIL : string;
+  GMAIL_PASSWORD : string;
 }
 
 const env: envType = { 
@@ -23,6 +25,8 @@ const env: envType = {
   JWT_SECRET: process.env.JWT_SECRET || "secreatkeyforJWT",
   ENCRYPTION_SALT_ROUND: Number(process.env.ENCRYPTION_SALT_ROUND),
   EXPRESS_PORT: Number(process.env.EXPRESS_PORT) || 3001,
+  GMAIL : process.env.GMAIL || "",
+  GMAIL_PASSWORD : process.env.GMAIL_PASSWORD || ""
 };
 
 export default env;

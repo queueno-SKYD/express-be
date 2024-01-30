@@ -4,6 +4,9 @@ export const PathName = {
   Register: `/api/${version}/register`,
   Me: `/api/${version}/me`,
   AllUsers: `/api/${version}/manageUsers/getAllUsers`,
+  uploadDocument: `/api/${version}/manageDocs/uploadDocument`,
+  getDocument: `/api/${version}/manageDocs/getDocument`,
+  getDocuments: `/api/${version}/manageDocs/getDocuments`,
   NotFound: "/*",
 };
 

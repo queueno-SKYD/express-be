@@ -9,18 +9,20 @@ const poolConfig: PoolOptions = {
   password: env.MYSQL_PASSWORD,
   database: env.MYSQL_DATABASE,
   connectionLimit: env.MYSQL_CONNECTION_LIMIT,
+  multipleStatements : true
 };
 
-const pool = mysql.createPool(poolConfig).promise();
+const pool = mysql.createPool(poolConfig);
 
 export async function getDatabase() {
-  try {
-    console.log(initDBQuery)
-    const data = await pool.query(initDBQuery);
-    console.log(data);
-  } catch (err) {
-    console.log(err)
-  }
+  console.log(initDBQuery)
+  pool.query(initDBQuery, [],(err, result) => {
+    if (err) {
+      console.log("Error --> ", err);
+    } else {
+      console.log("Result --> ", result);
+    }
+  })
 }
 
 export default pool;

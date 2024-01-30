@@ -13,6 +13,8 @@ export enum userTable {
   deleted="deleted",
   deleteBy="deleteBy",
   createdAt="createdAt",
+  password="password",
+  userType="userType",
 }
 
 export const initDBQuery = `
@@ -28,6 +30,8 @@ export const initDBQuery = `
     ${userTable.imageURL} VARCHAR(255) DEFAULT NULL,
     ${userTable.createdBy} BIGINT UNSIGNED DEFAULT NULL,
     ${userTable.deleted} BOOLEAN NOT NULL DEFAULT 0,
+    ${userTable.userType} INT NOT NULL DEFAULT 0,
+    ${userTable.password} VARCHAR(255) NOT NULL,
     ${userTable.deleteBy} BIGINT UNSIGNED DEFAULT NULL,
     ${userTable.createdAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (${userTable.userId}),

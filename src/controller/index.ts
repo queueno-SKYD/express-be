@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { RegisterUser, Me } from "./user/user.controller";
+import { RegisterUser, Me, GetAllUsers } from "./user/user.controller";
 import { Login } from "./auth/auth.controller";
 import { HTTPResponse, HttpStatus } from "./../httpResponse";
 
@@ -13,5 +13,6 @@ export {
   RegisterUser,
   Login,
   Me,
+  GetAllUsers,
   NotFound
 };

@@ -2,7 +2,8 @@ import pool from "../../database";
 import UserModel, { UserUpdateParams } from "../../model/userModel";
 import { ResultSetHeader } from "mysql2";
 import logger from "../../../logger";
-import { createUserQuery, deleteUserQuery, getUserAllQuery, getUserQuery, hardDeleteUserQuery, updateUserQuery } from "./userQuery.sql";
+import { createUserQuery, deleteUserQuery, getUserAllQuery, getUserQuery, hardDeleteUserQuery, updateUserQuery, getAllUserQuery } from "./userQuery.sql";
+import { QUERY_PAGINATION } from "../../util/consts";
 
 interface IUserModalQuery {
   save(user: UserModel): Promise<UserModel>;
@@ -10,10 +11,12 @@ interface IUserModalQuery {
   update(userId: UserModel["userId"], paylod: UserUpdateParams): Promise<UserModel>;
   delete(userId: UserModel["userId"]): Promise<number>;
   hardDelete(userId: UserModel["userId"]): Promise<number>;
+  getAllUsers(pIndex: number): Promise<UserModel[] | undefined>;
   // deleteAll(): Promise<number>;
 }
 
 class UserModalQuery implements IUserModalQuery {
+  
   public async save(user: UserModel): Promise<UserModel> {
     return new Promise((resolve, reject) => {
       pool.query<ResultSetHeader>(
@@ -65,6 +68,7 @@ class UserModalQuery implements IUserModalQuery {
       }
     });
   }
+
   public async update(userId: UserModel["userId"], paylod: UserUpdateParams): Promise<UserModel> {
     return new Promise((resolve, reject) => {
       if (userId) {
@@ -161,6 +165,34 @@ class UserModalQuery implements IUserModalQuery {
         reject("incorrect input: userId and email can not be null")
         return;
       }
+    });
+  }
+
+  /** 
+   * get All users Query with Paginations
+   * ByKanhaiya lal 
+   */
+  public async getAllUsers(pIndex: number): Promise<UserModel[] | undefined> {
+    return new Promise((resolve, reject) => {
+      pool.query<UserModel[]>(
+        getAllUserQuery,
+        [pIndex * QUERY_PAGINATION],
+        (err, result) => {
+          if (err) {
+            logger.fatal(err)
+            reject(undefined);
+          } else {
+            const data = result;
+            if (!data) {
+              logger.info("data Not Found")
+              reject(undefined);
+            }
+            logger.info(data, "All Users data ")
+            resolve(data)
+          }
+        }
+      )
+      
     });
   }
   // deleteAll(): Promise<number>;

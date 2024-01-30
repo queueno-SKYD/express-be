@@ -1,3 +1,6 @@
+import { QUERY_PAGINATION } from "../../util/consts";
+import { tablesName } from "../../database/init.sql";
+
 export const createUserQuery = `
   INSERT INTO USER_TABLE 
   (firstName, lastName, email, imageURL, createdBy, password, userType) 
@@ -23,4 +26,9 @@ export const hardDeleteUserQuery = `
 
 export const deleteUserQuery = `
   UPDATE USER_TABLE SET deleted = ? WHERE userId = ?
+`;
+
+/** get All User with Pagination  */
+export const getAllUserQuery = `
+  select userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType FROM ${tablesName.userTable} LIMIT ${QUERY_PAGINATION} OFFSET ? ;
 `;

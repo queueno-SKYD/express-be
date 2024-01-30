@@ -4,6 +4,7 @@ import { registerValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { encryptPassword } from "../../util";
 import logger from "../../../logger";
+import { sendRegisterationMail } from "../../services";
 
 export const RegisterUser = async (req: Request, res: Response) => {
   const body = req.body;
@@ -33,6 +34,8 @@ export const RegisterUser = async (req: Request, res: Response) => {
   //#endregion
   try {
     const data = await UserQuery.save(saveData)
+    /** send  Registration  mail*/
+    sendRegisterationMail(data.firstName + " " + data.lastName,data.email)
     res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "User created", data}));
   } catch (err: any) {
     res.status(409).send(new HTTPResponse({statusCode: HttpStatus.CONFLICT.code, httpStatus: HttpStatus.CONFLICT.status, message: "ERROR: User not created", data: err?.code === "ER_DUP_ENTRY" ? "User already exist with this email" : err.message}));
@@ -65,4 +68,16 @@ export const Me = async (req: Request, res: Response) => {
       new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Success", data: user})
     );
   }
+}
+
+/**
+ * By Kanhaiya lal 
+ * Get all Users Api 
+ */
+export const GetAllUsers = async (req: Request, res: Response) => {
+  const {pIndex} = req.body;
+  const users = await UserQuery.getAllUsers(pIndex | 0);
+  return res.status(200).send(
+    new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Success",data:users})
+  )
 }

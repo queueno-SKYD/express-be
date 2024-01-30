@@ -13,3 +13,9 @@ export default interface UserModel extends RowDataPacket {
   password: string;
   userType: number;
 }
+
+export interface UserUpdateParams {
+  firstName?: string;
+  lastName?: string;
+  imageURL?: string;
+}

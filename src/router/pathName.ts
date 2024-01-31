@@ -4,6 +4,7 @@ export const PathName = {
   Register: `/api/${version}/register`,
   Me: `/api/${version}/me`,
   AllUsers: `/api/${version}/manageUsers/getAllUsers`,
+  DeleteUserByAdmin: `/api/${version}/manageUsers/deleteUserByAdmin`,
   NotFound: "/*",
 };
 

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { RegisterUser, Login, Me, GetAllUsers } from "../controller";
 import { PathName } from "./pathName";
+import { DeleteUserByAdmin } from "../controller/admin/admin.controller";
 
 export const routes = (router: Router) => {
   router.post(PathName.Register, RegisterUser);
@@ -8,5 +9,6 @@ export const routes = (router: Router) => {
   router.post(PathName.Me, Me);
   // router.all(PathName.NotFound,NotFound);
   router.post(PathName.AllUsers,GetAllUsers);
+  router.post(PathName.DeleteUserByAdmin,DeleteUserByAdmin);
 };
                                                                                                                                            

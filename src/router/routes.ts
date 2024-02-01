@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { RegisterUser, Login, Me, GetAllUsers, NotFound } from "../controller";
+import { RegisterUser, Login, Me, GetAllUsers, NotFound, UploadDocument, GetDocument, GetDocuments } from "../controller";
 import { PathName } from "./pathName";
 
 export const routes = (router: Router) => {
@@ -7,7 +7,10 @@ export const routes = (router: Router) => {
   router.post(PathName.Login, Login);
   router.post(PathName.Me, Me);
   router.get(PathName.Me, Me);
+  router.post(PathName.AllUsers, GetAllUsers);
+  router.post(PathName.uploadDocument, UploadDocument);
+  router.post(PathName.getDocument, GetDocument);
+  router.post(PathName.getDocuments, GetDocuments);
   router.all(PathName.NotFound, NotFound);
-  router.post(PathName.AllUsers,GetAllUsers);
 };
                                                                                                                                            

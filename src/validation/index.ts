@@ -1,5 +1,9 @@
-import { registerValidation } from "./register/register.validation"
+import { registerValidation } from "./register/register.validation";
+import { createDocumentValidation, getDocumentParamsValidation, getDocumentsParamsValidation } from "./document/document.validation";
 
 export {
-  registerValidation
+  registerValidation,
+  createDocumentValidation,
+  getDocumentParamsValidation,
+  getDocumentsParamsValidation
 };

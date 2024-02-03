@@ -3,6 +3,7 @@ import { UserQuery } from "../../query";
 import { registerValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { encryptPassword } from "../../util";
+import logger from "../../../logger";
 import { sendRegisterationMail } from "../../services";
 
 export const RegisterUser = async (req: Request, res: Response) => {
@@ -31,23 +32,42 @@ export const RegisterUser = async (req: Request, res: Response) => {
     password: hashedPassword
   }
   //#endregion
-  const data = await UserQuery.save(saveData)
-  res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "User created", data}));
-  /** send  Registration  mail*/
-  sendRegisterationMail(data.firstName + " " + data.lastName,data.email) 
+  try {
+    const data = await UserQuery.save(saveData)
+    /** send  Registration  mail*/
+    sendRegisterationMail(data.firstName + " " + data.lastName,data.email)
+    res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "User created", data}));
+  } catch (err: any) {
+    res.status(409).send(new HTTPResponse({statusCode: HttpStatus.CONFLICT.code, httpStatus: HttpStatus.CONFLICT.status, message: "ERROR: User not created", data: err?.code === "ER_DUP_ENTRY" ? "User already exist with this email" : err.message}));
+  }
   return ;
 };
 
-export const Me = async (_: Request, res: Response) => {
+export const Me = async (req: Request, res: Response) => {
+  const body = req.body;
   const user = res.locals.user;
-  return res.status(200).send(
-    new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Success", data: user})
-  );
-}
-export const NotFound = async (_: Request, res: Response) => {
-  return res.status(404).send(
-    new HTTPResponse({statusCode: HttpStatus.NOT_FOUND.code, httpStatus: HttpStatus.NOT_FOUND.status, message: "Not Found"})
-  );
+  if (body?.firstName || body?.lastname || body?.imageURL) {
+    const updateData = {
+      firstName: body?.firstName,
+      lastname: body?.lastname,
+      imageUrl: body?.imageURL,
+    }
+    try {
+      const updatedUser = await UserQuery.update(user.userId, updateData);
+      return res.status(200).send(
+        new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "User update success", data: updatedUser})
+      );
+    } catch (err: any) {
+      logger.fatal(err.message)
+      return res.status(500).send(
+        new HTTPResponse({statusCode: HttpStatus.INTERNAL_SERVER_ERROR.code, httpStatus: HttpStatus.INTERNAL_SERVER_ERROR.status, message: "User update failed", data: user})
+      );
+    }
+  } else {
+    return res.status(200).send(
+      new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Success", data: user})
+    );
+  }
 }
 
 /**

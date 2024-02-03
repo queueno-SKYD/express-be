@@ -16,6 +16,18 @@ export const getUserQuery = `
   FROM  USER_TABLE WHERE deleted != 1 and (email = ? or userId = ?)`
 ;
 
+export const updateUserQuery = (setClause: string) => `
+  UPDATE USER_TABLE SET ${setClause} WHERE userId = ?
+`;
+
+export const hardDeleteUserQuery = `
+  DELETE FROM USER_TABLE WHERE userId = ?
+`;
+
+export const deleteUserQuery = `
+  UPDATE USER_TABLE SET deleted = ? WHERE userId = ?
+`;
+
 /** get All User with Pagination  */
 export const getAllUserQuery = `
   select userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType FROM ${tablesName.userTable} LIMIT ${QUERY_PAGINATION} OFFSET ? ;

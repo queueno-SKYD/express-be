@@ -5,6 +5,9 @@ export const PathName = {
   Me: `/api/${version}/me`,
   AllUsers: `/api/${version}/manageUsers/getAllUsers`,
   DeleteUserByAdmin: `/api/${version}/manageUsers/deleteUserByAdmin`,
+  uploadDocument: `/api/${version}/manageDocs/uploadDocument`,
+  getDocument: `/api/${version}/manageDocs/getDocument`,
+  getDocuments: `/api/${version}/manageDocs/getDocuments`,
   NotFound: "/*",
 };
 

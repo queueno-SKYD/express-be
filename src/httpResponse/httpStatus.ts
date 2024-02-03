@@ -13,6 +13,7 @@ interface IHttpStatus {
   WARNING: IStatus;
   UN_AUTHORISED:IStatus;
   DATABASE_ERROR :IStatus;
+  CONFLICT:IStatus;
 }
 
 const HttpStatus: IHttpStatus = {
@@ -25,6 +26,8 @@ const HttpStatus: IHttpStatus = {
   WARNING: {code: 200, status: "WARNING"},
   UN_AUTHORISED: {code: 401, status: "Alert"},
   DATABASE_ERROR :{code:502,status :"DATABASE_ERROR"}
+  UN_AUTHORISED: {code: 401, status: "ALERT"},
+  CONFLICT: {code: 409, status: "CONFLICT"},
 }
 
 export default HttpStatus;

@@ -13,7 +13,7 @@ export const getUserAllQuery = `
 
 export const getUserQuery = `
   SELECT userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType 
-  FROM  USER_TABLE WHERE email = ? or userId = ?`
+  FROM  USER_TABLE WHERE deleted != 1 and (email = ? or userId = ?)`
 ;
 
 export const updateUserQuery = (setClause: string) => `

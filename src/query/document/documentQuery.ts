@@ -12,8 +12,13 @@ interface IGetDocuments {
   total: number;
 }
 
+interface ISaveDocuments {
+  label: string;
+  fileURL: string;
+}
+
 interface IDocumentModalQuery {
-  save(ownerId: DocumentModel["ownerId"], document: DocumentModel): Promise<DocumentModel>;
+  save(ownerId: DocumentModel["ownerId"], document: ISaveDocuments): Promise<DocumentModel>;
   getDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"]): Promise<DocumentModel | undefined>;
   getDocuments(ownerId: DocumentModel["ownerId"], page: number, pageSize: number): Promise<IGetDocuments>;
   getTotal(ownerId: DocumentModel["ownerId"]): Promise<number>;
@@ -24,7 +29,7 @@ interface IDocumentModalQuery {
 }
 
 class DocumentModalQuery implements IDocumentModalQuery {
-  public async save(ownerId: DocumentModel["ownerId"], document: DocumentModel): Promise<DocumentModel> {
+  public async save(ownerId: DocumentModel["ownerId"], document: ISaveDocuments): Promise<DocumentModel> {
     return new Promise((resolve, reject) => {
       pool.query<ResultSetHeader>(
         createDocumentQuery,
@@ -76,7 +81,7 @@ class DocumentModalQuery implements IDocumentModalQuery {
       const offset = (page - 1) * (pageSize || QUERY_PAGINATION);
       pool.query<DocumentModel[]>(
         getAllDocumentQuery,
-        [ownerId, pageSize, offset],
+        [ownerId, pageSize || QUERY_PAGINATION, offset],
         async (err, result) => {
           if (err) {
             logger.fatal(err)

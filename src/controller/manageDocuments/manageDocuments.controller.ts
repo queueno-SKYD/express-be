@@ -20,7 +20,10 @@ export const UploadDocument = async (req: Request, res: Response) => {
   //#endregion
 
   try {
-    const data = await DocumentQuery.save(userDetails.userId, body);
+    const data = await DocumentQuery.save(userDetails.userId, {
+      fileURL: body.fileURL,
+      label: body.fileName,
+    });
     logger.info(data, "document created")
     res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Document uploaded successfully", data}));
   } catch (err: any) {

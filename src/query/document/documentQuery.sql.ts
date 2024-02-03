@@ -7,7 +7,8 @@ export const createDocumentQuery = `
 export const getAllDocumentQuery = `
   SELECT * from documentTable WHERE ownerId = ?
   ORDER BY fileId
-  Limit ? OFFSET ?
+  Limit ?
+  OFFSET ?
 ;
 `;
 

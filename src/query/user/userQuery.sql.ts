@@ -30,5 +30,4 @@ export const deleteUserQuery = `
 
 /** get All User with Pagination  */
 export const getAllUserQuery = `
-  select userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType FROM ${tablesName.userTable} LIMIT ${QUERY_PAGINATION} OFFSET ? ;
-`;
+  select userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType FROM   ${tablesName.userTable} WHERE deleted != 1 LIMIT ${QUERY_PAGINATION} OFFSET ?`;

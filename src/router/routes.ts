@@ -18,7 +18,7 @@ import {
   GetShareDocumentsByOthers
 } from "../controller";
 import { PathName } from "./pathName";
-import { DeleteUserByAdmin } from "../controller/admin/admin.controller";
+import { DeleteUserByAdmin, EditUserByAdmin } from "../controller/admin/admin.controller";
 
 export const routes = (router: Router) => {
   router.post(PathName.Register, RegisterUser);
@@ -40,6 +40,7 @@ export const routes = (router: Router) => {
   router.post(PathName.getShareDetails, GetShareDetails);
   router.post(PathName.revokeShare, RevokeAccess);
   router.post(PathName.getSharedDocumentByOthers, GetShareDocumentsByOthers);
+  router.post(PathName.EditUsersByAdmin, EditUserByAdmin);
   router.all(PathName.NotFound, NotFound);
 };
                                                                                                                                            

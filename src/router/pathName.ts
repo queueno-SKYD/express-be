@@ -16,6 +16,7 @@ export const PathName = {
   getShareDetails: `/api/${version}/manageDocs/getShareDetails`,
   revokeShare: `/api/${version}/manageDocs/revokeShare`,
   getSharedDocumentByOthers: `/api/${version}/manageDocs/getSharedDocumentByOthers`,
+  EditUsersByAdmin: `/api/${version}/manageUsers/editUserByAdmin`,
   NotFound: "/*",
 };
 

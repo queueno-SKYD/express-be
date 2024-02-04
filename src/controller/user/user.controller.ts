@@ -4,10 +4,9 @@ import { registerValidation, searchInputValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { encryptPassword } from "../../util";
 import logger from "../../../logger";
-import { sendRegisterationMail } from "../../services";
+// import { sendRegisterationMail } from "../../services";
 import JWT from "jsonwebtoken";
 import env from "./../../env";
-
 export const RegisterUser = async (req: Request, res: Response) => {
   const body = req.body;
 
@@ -37,7 +36,7 @@ export const RegisterUser = async (req: Request, res: Response) => {
   try {
     const data = await UserQuery.save(saveData)
     /** send  Registration  mail*/
-    sendRegisterationMail(data.firstName + " " + data.lastName,data.email)
+    // sendRegisterationMail(data.firstName + " " + data.lastName,data.email)
     const token = JWT.sign({
       userId: data.userId
     }, env.JWT_SECRET);

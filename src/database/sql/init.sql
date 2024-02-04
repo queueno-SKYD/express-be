@@ -53,3 +53,34 @@ CREATE INDEX idx_shareDocument_fileId ON shareDocument(fileId);
 
 CREATE INDEX idx_documentTable_fileId ON documentTable(fileId);
 CREATE INDEX idx_documentTable_ownerId ON documentTable(ownerId);
+
+CREATE TABLE IF NOT EXISTS groupTable (
+  groupId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  groupName VARCHAR(255) NOT NULL,
+  adminId BIGINT UNSIGNED NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (adminId) REFERENCES USER_TABLE(userId)
+);
+
+CREATE TABLE IF NOT EXISTS groupMemberTable (
+  memberId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  groupId BIGINT NOT NULL,
+  userId BIGINT UNSIGNED NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (groupId) REFERENCES groupTable(groupId),
+  FOREIGN KEY (userId) REFERENCES USER_TABLE(userId),
+  CONSTRAINT id_unique_member UNIQUE (groupId, userId)
+);
+
+CREATE TABLE IF NOT EXISTS groupChatTable (
+    chatId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    senderId BIGINT NOT NULL,
+    message TEXT NOT NULL,
+    groupId BIGINT NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (groupId) REFERENCES groupTable(groupId),
+    FOREIGN KEY (senderId) REFERENCES groupMemberTable(memberId)
+);
+
+

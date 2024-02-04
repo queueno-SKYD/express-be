@@ -30,8 +30,9 @@ export const deleteUserQuery = `
 
 /** get All User with Pagination  */
 export const getAllUserQuery = `
-  select userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType FROM ${tablesName.userTable} LIMIT ${QUERY_PAGINATION} OFFSET ? ;
-`;
+  SELECT userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType
+  FROM   ${tablesName.userTable}
+  WHERE deleted != 1 LIMIT ${QUERY_PAGINATION} OFFSET ?`;
 
 export const searchUsersQuery = `
   SELECT userId, firstName, lastName, email, imageURL, userType
@@ -45,5 +46,5 @@ export const searchUsersQuery = `
       WHEN lastName LIKE CONCAT('%', ?, '%') THEN 3
       ELSE 4
   END
-  LIMIT 15
+  LIMIT 15;
 `;

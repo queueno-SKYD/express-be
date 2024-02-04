@@ -28,3 +28,20 @@ CREATE TABLE IF NOT EXISTS documentTable (
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (fileId)
 );
+-- add foregin key in document table
+ALTER TABLE documentTable
+ADD CONSTRAINT fk_owner
+FOREIGN KEY (ownerId) REFERENCES USER_TABLE(userId);
+
+CREATE TABLE IF NOT EXISTS shareDocument (
+  shareId BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  fileId BIGINT UNSIGNED NOT NULL,
+  sharedUserId BIGINT UNSIGNED NOT NULL,
+  permissions ENUM('read', 'write') DEFAULT 'read',
+  sharedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (fileId) REFERENCES documentTable(fileId),
+  FOREIGN KEY (sharedUserId) REFERENCES USER_TABLE(userId)
+);
+-- add unique index to avoide duplicate records
+ALTER TABLE shareDocument
+ADD UNIQUE INDEX idx_unique_share (fileId, sharedUserId);

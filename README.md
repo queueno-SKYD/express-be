@@ -5,7 +5,7 @@
 cURL Example
 
 ```bash
-curl --location 'http://localhost:3001/api/v1/manageDocs/uploadDocument' \ --header 'Authorization: YOUR_ACCESS_TOKEN' \ --header 'Content-Type: application/json' \ --data '{   "fileName": "API documentation sheet 2",   "fileURL": "url" }'
+curl --location 'http://localhost:3001/api/v1/manageDocs/uploadDocument' \ --header 'Authorization: YOUR_ACCESS_TOKEN' \ --header 'Content-Type: application/json' \ --data '{   "label": "API documentation sheet 2",   "fileURL": "url" }'
 ```
 
 > Replace YOUR_ACCESS_TOKEN with the actual access token and provide the necessary details in the request payload.
@@ -19,7 +19,7 @@ curl --location 'http://localhost:3001/api/v1/manageDocs/uploadDocument' \ --hea
 * **Body:**
 
 ```json
-{   "fileName": "API documentation sheet 2",   "fileURL": "url" }
+{   "label": "API documentation sheet 2",   "fileURL": "url" }
 ```
 
 ### Response

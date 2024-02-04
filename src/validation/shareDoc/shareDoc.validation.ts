@@ -1,8 +1,8 @@
 import { Joi } from "express-validation";
 
-export const createDocumentValidation = Joi.object({
-  label: Joi.string().required(),
-  fileURL: Joi.string(),
+export const shareDocumentValidation = Joi.object({
+  fileId: Joi.string().required(),
+  sharedUserId: Joi.string().required(),
 });
 
 export const getDocumentsParamsValidation = Joi.object({

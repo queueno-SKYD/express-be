@@ -24,8 +24,7 @@ const HttpStatus: IHttpStatus = {
   NOT_FOUND: {code: 404, status: "NOT_FOUND"},
   INTERNAL_SERVER_ERROR: {code: 500, status: "INTERNAL_SERVER_ERROR"},
   WARNING: {code: 200, status: "WARNING"},
-  UN_AUTHORISED: {code: 401, status: "Alert"},
-  DATABASE_ERROR :{code:502,status :"DATABASE_ERROR"}
+  DATABASE_ERROR :{code:502,status :"DATABASE_ERROR"},
   UN_AUTHORISED: {code: 401, status: "ALERT"},
   CONFLICT: {code: 409, status: "CONFLICT"},
 }

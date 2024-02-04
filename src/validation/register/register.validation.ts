@@ -9,3 +9,7 @@ export const registerValidation = Joi.object({
   passwordConfirm: Joi.string().required(),
   userType: Joi.number().max(1).min(0),
 });
+
+export const searchInputValidation = Joi.object({
+  query: Joi.string().required(),
+});

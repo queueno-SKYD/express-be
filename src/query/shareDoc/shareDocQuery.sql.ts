@@ -1,9 +1,9 @@
-export const createDocumentQuery = `
-  INSERT INTO documentTable 
-  (ownerId, label, fileURL) 
-  VALUES(?, ?, ?)
+export const shareDocumentMultipleUsersQuery = (placeholders: string) => `INSERT INTO Shares (documentId, sharedWithUserId, permissions) VALUES ${placeholders}`;
+export const  shareDocumentQuery = `
+  INSERT INTO Shares (fileId, sharedUserId, permissions)
+  VALUES (?, ?, ?)
+  ON DUPLICATE KEY UPDATE permissions = VALUES(permissions);
 `;
-
 export const getAllDocumentQuery = `
   SELECT * from documentTable WHERE ownerId = ? and deleted = 0
   ORDER BY fileId

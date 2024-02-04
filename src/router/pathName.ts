@@ -8,6 +8,7 @@ export const PathName = {
   uploadDocument: `/api/${version}/manageDocs/uploadDocument`,
   getDocument: `/api/${version}/manageDocs/getDocument`,
   getDocuments: `/api/${version}/manageDocs/getDocuments`,
+  EditUsersByAdmin: `/api/${version}/manageUsers/editUserByAdmin`,
   NotFound: "/*",
 };
 

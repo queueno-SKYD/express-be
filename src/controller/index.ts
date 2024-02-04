@@ -3,7 +3,7 @@ import { RegisterUser, Me, GetAllUsers, SearchUsers } from "./user/user.controll
 import { Login } from "./auth/auth.controller";
 import { HTTPResponse, HttpStatus } from "./../httpResponse";
 import { UploadDocument, GetDocuments, GetDocument, DeleteDocument, EditDocument } from "./manageDocuments/manageDocuments.controller";
-import { GetShareDetails, RevokeAccess, ShareDocument } from "./shareDocument/shareDocument.controller";
+import { GetShareDetails, GetShareDocumentsByOthers, RevokeAccess, ShareDocument, ShareDocumentWithMultipleUsers } from "./shareDocument/shareDocument.controller";
 
 const NotFound = async (_: Request, res: Response) => {
   return res.status(404).send(
@@ -26,4 +26,6 @@ export {
   ShareDocument,
   GetShareDetails,
   RevokeAccess,
+  ShareDocumentWithMultipleUsers,
+  GetShareDocumentsByOthers,
 };

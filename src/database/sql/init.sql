@@ -40,8 +40,16 @@ CREATE TABLE IF NOT EXISTS shareDocument (
   permissions ENUM('read', 'write') DEFAULT 'read',
   sharedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (fileId) REFERENCES documentTable(fileId),
-  FOREIGN KEY (sharedUserId) REFERENCES USER_TABLE(userId)
+  FOREIGN KEY (sharedUserId) REFERENCES USER_TABLE(userId),
+  CONSTRAINT idx_unique_share UNIQUE INDEX (fileId, sharedUserId)
 );
 -- add unique index to avoide duplicate records
-ALTER TABLE shareDocument
-ADD UNIQUE INDEX idx_unique_share (fileId, sharedUserId);
+-- ALTER TABLE shareDocument
+-- ADD UNIQUE INDEX idx_unique_share (fileId, sharedUserId);
+
+-- indexex
+
+CREATE INDEX idx_shareDocument_fileId ON shareDocument(fileId);
+
+CREATE INDEX idx_documentTable_fileId ON documentTable(fileId);
+CREATE INDEX idx_documentTable_ownerId ON documentTable(ownerId);

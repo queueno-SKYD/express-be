@@ -14,6 +14,8 @@ import {
   ShareDocument,
   GetShareDetails,
   RevokeAccess,
+  ShareDocumentWithMultipleUsers,
+  GetShareDocumentsByOthers
 } from "../controller";
 import { PathName } from "./pathName";
 import { DeleteUserByAdmin } from "../controller/admin/admin.controller";
@@ -34,8 +36,10 @@ export const routes = (router: Router) => {
   router.post(PathName.editDocument, EditDocument);
   router.post(PathName.searchUsers, SearchUsers);
   router.post(PathName.shareDocument, ShareDocument);
+  router.post(PathName.shareWithMultipleUsers, ShareDocumentWithMultipleUsers);
   router.post(PathName.getShareDetails, GetShareDetails);
   router.post(PathName.revokeShare, RevokeAccess);
+  router.post(PathName.getSharedDocumentByOthers, GetShareDocumentsByOthers);
   router.all(PathName.NotFound, NotFound);
 };
                                                                                                                                            

@@ -12,8 +12,10 @@ export const PathName = {
   deleteDocument: `/api/${version}/manageDocs/deleteDocument`,
   editDocument: `/api/${version}/manageDocs/editDocument`,
   shareDocument: `/api/${version}/manageDocs/share`,
+  shareWithMultipleUsers: `/api/${version}/manageDocs/shareWithMultipleUsers`,
   getShareDetails: `/api/${version}/manageDocs/getShareDetails`,
   revokeShare: `/api/${version}/manageDocs/revokeShare`,
+  getSharedDocumentByOthers: `/api/${version}/manageDocs/getSharedDocumentByOthers`,
   NotFound: "/*",
 };
 

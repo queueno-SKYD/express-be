@@ -1,8 +1,8 @@
 import { Joi } from "express-validation";
 
 export const createDocumentValidation = Joi.object({
-  fileName: Joi.string().required(),
-  fileURL: Joi.string(),
+  label: Joi.string().required(),
+  fileURL: Joi.string().required(),
 });
 
 export const getDocumentsParamsValidation = Joi.object({
@@ -12,4 +12,10 @@ export const getDocumentsParamsValidation = Joi.object({
 
 export const getDocumentParamsValidation = Joi.object({
   fileId: Joi.number().required().min(1),
+});
+
+export const editDocumentParamsValidation = Joi.object({
+  fileId: Joi.number().required().min(1),
+  label: Joi.string(),
+  fileURL: Joi.string(),
 });

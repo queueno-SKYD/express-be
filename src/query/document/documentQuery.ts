@@ -2,7 +2,7 @@ import pool from "../../database";
 import DocumentModel from "../../model/documentModel";
 import { ResultSetHeader } from "mysql2";
 import logger from "../../../logger";
-import { createDocumentQuery, getDocumentQuery, getAllDocumentQuery, getTotalQuery } from "./documentQuery.sql";
+import { createDocumentQuery, getDocumentQuery, getAllDocumentQuery, getTotalQuery, deleteDocumentQuery, updateDocumentQuery } from "./documentQuery.sql";
 import { QUERY_PAGINATION } from "../../util/consts";
 
 interface IGetDocuments {
@@ -17,12 +17,19 @@ interface ISaveDocuments {
   fileURL: string;
 }
 
+interface IUpdateDocuments {
+  label?: string;
+  fileURL?: string;
+  fileId: DocumentModel["fileId"], 
+}
+
 interface IDocumentModalQuery {
   save(ownerId: DocumentModel["ownerId"], document: ISaveDocuments): Promise<DocumentModel>;
   getDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"]): Promise<DocumentModel | undefined>;
   getDocuments(ownerId: DocumentModel["ownerId"], page: number, pageSize: number): Promise<IGetDocuments>;
   getTotal(ownerId: DocumentModel["ownerId"]): Promise<number>;
-  // update(userId: DocumentModel["userId"], paylod: UpdateDocumentModel): Promise<DocumentModel>;
+  deleteDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], deletedBy: DocumentModel["ownerId"]): Promise<number>;
+  update(ownerId: DocumentModel["ownerId"], payload: IUpdateDocuments): Promise<number>;
   // delete(userId: DocumentModel["userId"]): Promise<number>;
   // hardDelete(userId: DocumentModel["userId"]): Promise<number>;
   // deleteAll(): Promise<number>;
@@ -133,6 +140,56 @@ class DocumentModalQuery implements IDocumentModalQuery {
       )
     });
   }
+  public async deleteDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], deletedBy: DocumentModel["ownerId"]): Promise<number> {
+    return new Promise((resolve, reject) => {
+      pool.query<ResultSetHeader>(
+        deleteDocumentQuery, //deleteBy = ? WHERE ownerId = ? and fileId = ?
+        [deletedBy, ownerId, fileId],
+        (err, result) => {
+          if (err) {
+            logger.fatal(err)
+            reject(err)
+          } else {
+            if (result.affectedRows > 0) {
+              resolve(result.affectedRows)
+            } else {
+              // No rows were affected, meaning the user with the given userId was not found
+              reject({ affectedRows: 0, deleteData: null, message: "document not found"});
+            }
+          }
+        }
+      )
+    });
+  }
+
+  public async update(ownerId: DocumentModel["ownerId"], payload: IUpdateDocuments): Promise<number> {
+    const payloadWithoutFileId = {...payload, fileId: null}
+    const setClause = Object.keys(payloadWithoutFileId)
+      .map((key) => payloadWithoutFileId[key] ? `${key} = ?` : null)
+      .filter(a => a)
+      .join(", ");
+    const values = Object.values(payloadWithoutFileId).filter(a => a);
+    return new Promise((resolve, reject) => {
+      pool.query<ResultSetHeader>(
+        updateDocumentQuery(setClause), //deleteBy = ? WHERE ownerId = ? and fileId = ?
+        [...values, payload.fileId, ownerId],
+        (err, result) => {
+          if (err) {
+            logger.fatal(err)
+            reject(err)
+          } else {
+            if (result.affectedRows > 0) {
+              resolve(result.affectedRows)
+            } else {
+              // No rows were affected, meaning the user with the given userId was not found
+              reject({ affectedRows: 0, deleteData: null, message: "document not found"});
+            }
+          }
+        }
+      )
+    });
+  }
+
 }
 
 export default new DocumentModalQuery();

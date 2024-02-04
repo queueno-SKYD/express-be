@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { UserQuery } from "../../query";
-import { registerValidation } from "../../validation";
+import { registerValidation, searchInputValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { encryptPassword } from "../../util";
 import logger from "../../../logger";
 // import { sendRegisterationMail } from "../../services";
 import JWT from "jsonwebtoken";
-import env from "../../env";
+import env from "./../../env";
 export const RegisterUser = async (req: Request, res: Response) => {
   const body = req.body;
 
@@ -36,7 +36,7 @@ export const RegisterUser = async (req: Request, res: Response) => {
   try {
     const data = await UserQuery.save(saveData)
     /** send  Registration  mail*/
-    // sendRegisterationMail(data.firstName + " " + data.lastName,data.email);
+    // sendRegisterationMail(data.firstName + " " + data.lastName,data.email)
     const token = JWT.sign({
       userId: data.userId
     }, env.JWT_SECRET);
@@ -45,10 +45,9 @@ export const RegisterUser = async (req: Request, res: Response) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000 //1day
     })
-    res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "User created", data :{userData:data,token}}));
-
+    res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "User created", data:{userData: data, token}}));
   } catch (err: any) {
-    res.status(409).send(new HTTPResponse({statusCode: HttpStatus.CONFLICT.code, httpStatus: HttpStatus.CONFLICT.status, message: err?.code === "ER_DUP_ENTRY" ? "User already exist with this email" : err.message, data:null }));
+    res.status(409).send(new HTTPResponse({statusCode: HttpStatus.CONFLICT.code, httpStatus: HttpStatus.CONFLICT.status, message: err?.code === "ER_DUP_ENTRY" ? "User already exist with this email" : err.message}));
   }
   return ;
 };
@@ -90,4 +89,26 @@ export const GetAllUsers = async (req: Request, res: Response) => {
   return res.status(200).send(
     new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Success",data:users})
   )
+}
+
+export const SearchUsers = async (req: Request, res: Response) => {
+  const body = req.body;
+  const { error } = searchInputValidation.validate(body);
+  if (error) {
+    return res.status(200).send(
+      new HTTPResponse({statusCode: HttpStatus.WARNING.code, httpStatus: HttpStatus.WARNING.status, message: error.message})
+    );
+  }
+
+  try {
+    const users = await UserQuery.search(body.query);
+    return res.status(200).send(
+      new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Success", data: users})
+    );
+  } catch (err: any) {
+    logger.fatal(err.message)
+    return res.status(200).send(
+      new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: err.message, data: []})
+    );
+  }
 }

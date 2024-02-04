@@ -2,7 +2,7 @@ import pool from "../../database";
 import UserModel, { UserUpdateParams } from "../../model/userModel";
 import { ResultSetHeader } from "mysql2";
 import logger from "../../../logger";
-import { createUserQuery, deleteUserQuery, getUserAllQuery, getUserQuery, hardDeleteUserQuery, updateUserQuery, getAllUserQuery } from "./userQuery.sql";
+import { createUserQuery, deleteUserQuery, getUserAllQuery, getUserQuery, hardDeleteUserQuery, updateUserQuery, getAllUserQuery, searchUsersQuery } from "./userQuery.sql";
 import { QUERY_PAGINATION } from "../../util/consts";
 
 interface IUserModalQuery {
@@ -12,6 +12,7 @@ interface IUserModalQuery {
   delete(userId: UserModel["userId"]): Promise<number>;
   hardDelete(userId: UserModel["userId"]): Promise<number>;
   getAllUsers(pIndex: number): Promise<UserModel[] | undefined>;
+  search(searchTerm: string): Promise<UserModel[] | undefined>;
   // deleteAll(): Promise<number>;
 }
 
@@ -196,6 +197,29 @@ class UserModalQuery implements IUserModalQuery {
     });
   }
   // deleteAll(): Promise<number>;
+  public async search(searchTerm: string): Promise<UserModel[] | undefined> {
+    return new Promise((resolve, reject) => {
+      pool.query<UserModel[]>(
+        searchUsersQuery,
+        [searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm],
+        (err, result) => {
+          if (err) {
+            logger.fatal(err)
+            reject(undefined);
+          } else {
+            const data = result;
+            if (!data) {
+              logger.info("data Not Found")
+              reject(undefined);
+            }
+            logger.info(data, "All Users data ")
+            resolve(data)
+          }
+        }
+      )
+      
+    });
+  }
 }
 
 export default new UserModalQuery();

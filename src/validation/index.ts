@@ -1,9 +1,16 @@
-import { registerValidation } from "./register/register.validation";
-import { createDocumentValidation, getDocumentParamsValidation, getDocumentsParamsValidation } from "./document/document.validation";
+import { registerValidation, searchInputValidation } from "./register/register.validation";
+import { createDocumentValidation, editDocumentParamsValidation, getDocumentParamsValidation, getDocumentsParamsValidation } from "./document/document.validation";
+import {getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation, shareDocumentValidation, shareMultiDocumentValidation} from "./shareDoc/shareDoc.validation";
 
 export {
   registerValidation,
   createDocumentValidation,
   getDocumentParamsValidation,
-  getDocumentsParamsValidation
+  getDocumentsParamsValidation,
+  editDocumentParamsValidation,
+  searchInputValidation,
+  shareDocumentValidation,
+  shareMultiDocumentValidation,
+  getShareDetailsInputParamsValidation,
+  getShareDocumentByOthersParamValidation,
 };

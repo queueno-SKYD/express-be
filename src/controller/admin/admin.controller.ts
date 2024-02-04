@@ -10,7 +10,7 @@ export const DeleteUserByAdmin = async (req: Request, res: Response) => {
   try {
     const { userIds } = req.body;
     const user = res.locals.user;
-    if(user.userId == userIds[0]){
+    if (user.userId == userIds[0]) {
       return res.status(400).send(
         new HTTPResponse({
           statusCode: HttpStatus.UN_AUTHORISED.code,

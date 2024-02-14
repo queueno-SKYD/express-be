@@ -2,6 +2,8 @@ import { registerValidation, searchInputValidation } from "./register/register.v
 import { createDocumentValidation, editDocumentParamsValidation, getDocumentParamsValidation, getDocumentsParamsValidation } from "./document/document.validation";
 import {getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation, shareDocumentValidation, shareMultiDocumentValidation} from "./shareDoc/shareDoc.validation";
 
+import { personalChatMessageValidation } from "./chatMessage/chat.validation";
+
 export {
   registerValidation,
   createDocumentValidation,
@@ -13,4 +15,5 @@ export {
   shareMultiDocumentValidation,
   getShareDetailsInputParamsValidation,
   getShareDocumentByOthersParamValidation,
+  personalChatMessageValidation
 };

@@ -29,7 +29,8 @@
     "nodemailer": "^6.9.8",
     "nodemon": "^3.0.3",
     "pino": "^8.17.2",
-    "reflect-metadata": "^0.2.1"
+    "reflect-metadata": "^0.2.1",
+    "socket.io": "^4.7.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

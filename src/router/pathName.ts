@@ -17,6 +17,7 @@ export const PathName = {
   revokeShare: `/api/${version}/manageDocs/revokeShare`,
   getSharedDocumentByOthers: `/api/${version}/manageDocs/getSharedDocumentByOthers`,
   EditUsersByAdmin: `/api/${version}/manageUsers/editUserByAdmin`,
+  WebSocket: "/socket.io/*",
   NotFound: "/*",
 };
 

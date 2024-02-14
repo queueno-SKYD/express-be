@@ -37,11 +37,15 @@ const signJWTToken = (payload: JWTTokenType) : string => {
   return JWT.sign(payload, env.JWT_SECRET);
 }
 
+const generatePrivateRoomId = (socketId: string, senderid: number, receiverId: number): string =>
+  [socketId,senderid,receiverId].join(":");
+
 export {
   constant,
   checkPasswordStrength,
   encryptPassword,
   comparePassword,
   signJWTToken,
-  JWTTokenType
+  JWTTokenType,
+  generatePrivateRoomId
 };

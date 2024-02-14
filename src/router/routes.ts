@@ -17,8 +17,11 @@ import {
   ShareDocumentWithMultipleUsers,
   GetShareDocumentsByOthers
 } from "../controller";
+
+import { initPersonalSocketIoEvents } from "../services/chat/personalChat.services";
 import { PathName } from "./pathName";
 import { DeleteUserByAdmin, EditUserByAdmin } from "../controller/admin/admin.controller";
+import { Server } from "socket.io";
 
 export const routes = (router: Router) => {
   router.post(PathName.Register, RegisterUser);
@@ -41,6 +44,11 @@ export const routes = (router: Router) => {
   router.post(PathName.revokeShare, RevokeAccess);
   router.post(PathName.getSharedDocumentByOthers, GetShareDocumentsByOthers);
   router.post(PathName.EditUsersByAdmin, EditUserByAdmin);
+  router.all(PathName.WebSocket, (_, res) => res.send(200))
   router.all(PathName.NotFound, NotFound);
 };
+
+export const wsRoute = (io: Server) => {
+  initPersonalSocketIoEvents(io)
+}
                                                                                                                                            

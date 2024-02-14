@@ -32,7 +32,7 @@ export const getShareDetailsByFileIdQuery = `
   FROM
   shareDocument sd
   INNER JOIN documentTable dt ON sd.fileId = dt.fileId
-  INNER JOIN USER_TABLE ut ON sd.sharedUserId  = ut.userId
+  INNER JOIN userTable ut ON sd.sharedUserId  = ut.userId
   WHERE
   dt.fileId = ?
   ORDER BY
@@ -56,7 +56,7 @@ export const getSharedDocumentsByOtherQuery = `
   FROM
   shareDocument sd
   INNER JOIN documentTable dt ON sd.fileId = dt.fileId
-  INNER JOIN USER_TABLE ut ON dt.ownerId  = ut.userId
+  INNER JOIN userTable ut ON dt.ownerId  = ut.userId
   WHERE
   sd.sharedUserId = ?
   ORDER BY
@@ -68,7 +68,7 @@ export const getTotalShare = `
   SELECT COUNT(*) as total
   FROM shareDocument
   JOIN documentTable ON shareDocument.fileId = documentTable.fileId
-  JOIN USER_TABLE ON shareDocument.sharedUserId = USER_TABLE.userId
+  JOIN userTable ON shareDocument.sharedUserId = userTable.userId
   WHERE documentTable.fileId = ?;
 `;
 
@@ -76,7 +76,7 @@ export const getTotalSharedByOthers = `
   SELECT COUNT(*) as total
   FROM shareDocument
   JOIN documentTable ON shareDocument.fileId = documentTable.fileId
-  JOIN USER_TABLE ON documentTable.ownerId = USER_TABLE.userId
+  JOIN userTable ON documentTable.ownerId = userTable.userId
   WHERE documentTable.fileId = ?;
 `;
 

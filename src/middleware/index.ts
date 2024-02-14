@@ -1,5 +1,6 @@
-import { UserAuthenticate } from "./auth.middleware"
+import { UserAuthenticate, UserAuthenticateWS } from "./auth.middleware"
 
 export {
-  UserAuthenticate
+  UserAuthenticate,
+  UserAuthenticateWS
 }

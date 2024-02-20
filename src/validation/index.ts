@@ -1,6 +1,7 @@
 import { registerValidation, searchInputValidation } from "./register/register.validation";
 import { createDocumentValidation, editDocumentParamsValidation, getDocumentParamsValidation, getDocumentsParamsValidation } from "./document/document.validation";
-import {getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation, shareDocumentValidation, shareMultiDocumentValidation} from "./shareDoc/shareDoc.validation";
+import { getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation, shareDocumentValidation, shareMultiDocumentValidation } from "./shareDoc/shareDoc.validation";
+import { createGroupValidation } from "./chatGroup/chatGroup.validation";
 
 export {
   registerValidation,
@@ -13,4 +14,5 @@ export {
   shareMultiDocumentValidation,
   getShareDetailsInputParamsValidation,
   getShareDocumentByOthersParamValidation,
+  createGroupValidation,
 };

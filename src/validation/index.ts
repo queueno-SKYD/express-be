@@ -3,6 +3,7 @@ import { createDocumentValidation, editDocumentParamsValidation, getDocumentPara
 import {getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation, shareDocumentValidation, shareMultiDocumentValidation} from "./shareDoc/shareDoc.validation";
 
 import { personalChatMessageValidation } from "./chatMessage/chat.validation";
+import { createGroupValidation } from "./chatGroup/chatGroup.validation";
 
 export {
   registerValidation,
@@ -15,5 +16,6 @@ export {
   shareMultiDocumentValidation,
   getShareDetailsInputParamsValidation,
   getShareDocumentByOthersParamValidation,
-  personalChatMessageValidation
+  personalChatMessageValidation,
+  createGroupValidation,
 };

@@ -103,8 +103,8 @@ class DocumentModalQuery implements IDocumentModalQuery {
               const total = await this.getTotal(ownerId)
               const queryResponse: IGetDocuments = {
                 data: result,
-                page: 1,
-                pageSize: 50,
+                page: page,
+                pageSize: pageSize || QUERY_PAGINATION,
                 total: total,
               }
               logger.info(result, "found document")

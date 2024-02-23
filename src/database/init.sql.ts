@@ -1,7 +1,7 @@
 import env from "../env"
 
 export enum tablesName {
-  userTable = "USER_TABLE",
+  userTable = "userTable",
 }
 export enum userTable {
   userId ="userId",

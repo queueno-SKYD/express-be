@@ -3,6 +3,7 @@ import DocumentQuery from "./document/documentQuery";
 import ShareDocumentQuery from "./shareDoc/shareDocQuery";
 import AdminQuery from "./admin/adminQuery";
 import ChatGroupQuery from "./chatGroup/chatGroupQuery";
+import ChatGroupMememberQuery from "./chatGroupMember/chatGroupMememberQuery";
 
 export {
   UserQuery,
@@ -10,4 +11,5 @@ export {
   AdminQuery,
   ShareDocumentQuery,
   ChatGroupQuery,
+  ChatGroupMememberQuery,
 };

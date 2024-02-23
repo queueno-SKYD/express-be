@@ -21,6 +21,9 @@ export const routes = (router: Router) => {
   router.post(PathName.getSharedDocumentByOthers, controllers.GetShareDocumentsByOthers);
   router.post(PathName.EditUsersByAdmin, controllers.EditUserByAdmin);
   router.post(PathName.CreateGroup, controllers.CreateGroup);
+  router.post(PathName.GetAllUserGroups, controllers.GetAllUserGroups);
+  router.post(PathName.AddMembers, controllers.AddMembers);
+  router.post(PathName.MakeAdmin, controllers.MakeAdmin);
   router.all(PathName.NotFound, controllers.NotFound);
 };
                                                                                                                                            

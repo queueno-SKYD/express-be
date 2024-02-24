@@ -55,3 +55,53 @@ export const RegisterSuccussMail = (appName: string, userName: string) => {
   `;
 };
 
+export const ResetPasswordMail = (appName: string, userName: string, otp: number) => {
+  return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Forgot Password OTP</title>
+      <style>
+          body {
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f4;
+              margin: 0;
+              padding: 0;
+          }
+          .container {
+              max-width: 600px;
+              margin: 20px auto;
+              padding: 20px;
+              background-color: #fff;
+              border-radius: 8px;
+              box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+          .otp-code {
+              font-size: 24px;
+              font-weight: bold;
+              color: #007bff;
+              margin-bottom: 20px;
+          }
+          .footer {
+              margin-top: 20px;
+              font-size: 12px;
+              color: #666;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <h2>Forgot Password - One-Time Password (OTP)</h2>
+          <p>Dear ${userName},</p>
+          <p>You have requested to reset your password. To proceed with resetting your password, please use the following one-time password (OTP).</p>
+          <p class="otp-code">Your OTP is: ${otp}</p>
+          <p>Please enter this OTP in the provided field within [Time Limit] minutes to reset your password. If you did not request this password reset or need assistance, please contact our support team.</p>
+          <div class="footer">
+              <p>Thank you.</p>
+              <p>Best regards,<br>${appName} Team</p>
+          </div>
+      </div>
+  </body>
+  </html>`  
+}

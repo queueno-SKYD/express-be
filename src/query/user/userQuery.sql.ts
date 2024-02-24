@@ -1,5 +1,5 @@
 import { QUERY_PAGINATION } from "../../util/consts";
-import { tablesName } from "../../database/init.sql";
+import { tablesName, userTable } from "../../database/init.sql";
 
 export const createUserQuery = `
   INSERT INTO USER_TABLE 
@@ -13,8 +13,7 @@ export const getUserAllQuery = `
 
 export const getUserQuery = `
   SELECT userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType 
-  FROM  USER_TABLE WHERE deleted != 1 and (email = ? or userId = ?)`
-;
+  FROM  USER_TABLE WHERE deleted != 1 and (email = ? or userId = ?)`;
 
 export const updateUserQuery = (setClause: string) => `
   UPDATE USER_TABLE SET ${setClause} WHERE userId = ?
@@ -48,3 +47,12 @@ export const searchUsersQuery = `
   END
   LIMIT 15;
 `;
+
+export const getUserQueryByEmailId = `
+  SELECT userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType
+  FROM   ${tablesName.userTable}
+  WHERE ${userTable.email} = ?`;
+
+export const updatePasswordQuery = `UPDATE ${tablesName.userTable}
+  SET password = ?
+  WHERE email = ?`;

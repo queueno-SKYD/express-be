@@ -2,7 +2,7 @@ import pool from "../../database";
 import UserModel, { UserUpdateParams } from "../../model/userModel";
 import { ResultSetHeader } from "mysql2";
 import logger from "../../../logger";
-import { createUserQuery, deleteUserQuery, getUserAllQuery, getUserQuery, hardDeleteUserQuery, updateUserQuery, getAllUserQuery, searchUsersQuery } from "./userQuery.sql";
+import { createUserQuery, deleteUserQuery, getUserAllQuery, getUserQuery, hardDeleteUserQuery, updateUserQuery, getAllUserQuery, searchUsersQuery, getUserQueryByEmailId, updatePasswordQuery } from "./userQuery.sql";
 import { QUERY_PAGINATION } from "../../util/consts";
 
 interface IUserModalQuery {
@@ -13,6 +13,7 @@ interface IUserModalQuery {
   hardDelete(userId: UserModel["userId"]): Promise<number>;
   getAllUsers(pIndex: number): Promise<UserModel[] | undefined>;
   search(searchTerm: string): Promise<UserModel[] | undefined>;
+  updateUserPassword(emailId: string, password: string): Promise<boolean>
   // deleteAll(): Promise<number>;
 }
 
@@ -214,6 +215,50 @@ class UserModalQuery implements IUserModalQuery {
             }
             logger.info(data, "All Users data ")
             resolve(data)
+          }
+        }
+      )
+      
+    });
+  }
+
+  // get userBy EmailId;
+  public async getUserByEmailId(emailId: string): Promise<UserModel | undefined> {
+    return new Promise((resolve, reject) => {
+      pool.query<ResultSetHeader>(
+        getUserQueryByEmailId,
+        [emailId],
+        (err, result) => {
+          if (err) {
+            logger.fatal(err)
+            reject(undefined);
+          } else {
+            const data = result;
+            if (!data) {
+              logger.info("data Not Found")
+              reject(undefined);
+            }
+            logger.info(data, "User data ")
+            resolve(data[0])
+          }
+        }
+      )
+      
+    });
+  }
+
+  // update user password 
+  public async updateUserPassword(emailId: string, password: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      pool.query<ResultSetHeader>(
+        updatePasswordQuery,
+        [password,emailId],
+        (err) => {
+          if (err) {
+            logger.fatal(err)
+            resolve(false);
+          } else {
+            return resolve(true)
           }
         }
       )

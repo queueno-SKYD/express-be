@@ -3,6 +3,7 @@ import cors from "cors";
 import { routes } from "./router/routes";
 import env from "./env";
 import { UserAuthenticate } from "./middleware";
+import path from "path";
 // import { HTTPResponse, HttpStatus } from "./httpResponse";
 
 const app = express();
@@ -13,6 +14,17 @@ app.use(cors({
   credentials: true,
   origin: ["http://localhost:3000"]
 }));
+
+app.use("../uploads", express.static(path.join(__dirname, "uploads")));
+
+app.get("/uploads/:fileId", (req, res) => {
+  const fileId = req.params.fileId;
+  const uploadsDir = path.join(__dirname, "..", "uploads");
+  const filePath = path.join(uploadsDir, fileId);
+  // Serve the file from the uploads directory
+  res.sendFile(filePath);
+});
+
 app.use(UserAuthenticate)
 
 // app.use((_: Request, res: Response) => {

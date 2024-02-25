@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { PathName } from "./pathName";
 import controllers from "../controller";
+import { uploadFile } from "../controller/fileUpload/uploadFile.controller";
 
 export const routes = (router: Router) => {
   router.post(PathName.Register, controllers.RegisterUser);
@@ -24,6 +25,7 @@ export const routes = (router: Router) => {
   router.post(PathName.GetAllUserGroups, controllers.GetAllUserGroups);
   router.post(PathName.AddMembers, controllers.AddMembers);
   router.post(PathName.MakeAdmin, controllers.MakeAdmin);
+  router.post(PathName.UploadFile, uploadFile);
   router.all(PathName.NotFound, controllers.NotFound);
 };
                                                                                                                                            

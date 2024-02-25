@@ -25,18 +25,18 @@ export const Login = (req: Request, res: Response) => {
         );
         // #endregion
       } else {
-        return res.status(200).send(
+        return res.status(400).send(
           new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.WARNING.status, message: "Invalid Password!"})
         );
       }
     } else {
       logger.fatal("User not found in DB")
-      return res.status(200).send(
+      return res.status(400).send(
         new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.WARNING.status, message: "Invalid user"})
       );
     }
   }).catch((err) => {
-    return res.status(200).send(
+    return res.status(400).send(
       new HTTPResponse({statusCode: HttpStatus.WARNING.code, httpStatus: HttpStatus.WARNING.status, message:err})
     );
   })

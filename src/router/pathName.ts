@@ -3,6 +3,7 @@ export const PathName = {
   Login: `/api/${version}/login`,
   Register: `/api/${version}/register`,
   Me: `/api/${version}/me`,
+  UploadFile: `/api/${version}/uploadFile`,
   AllUsers: `/api/${version}/manageUsers/getAllUsers`,
   DeleteUserByAdmin: `/api/${version}/manageUsers/deleteUserByAdmin`,
   searchUsers: `/api/${version}/manageUsers/search`,
@@ -24,4 +25,4 @@ export const PathName = {
   NotFound: "/*",
 };
 
-export const PublicRoute = [PathName.Login, PathName.Register];
+export const PublicRoute = [PathName.Login, PathName.Register, PathName.UploadFile];

@@ -3,6 +3,7 @@ export const PathName = {
   Login: `/api/${version}/login`,
   Register: `/api/${version}/register`,
   Me: `/api/${version}/me`,
+  UploadFile: `/api/${version}/uploadFile`,
   AllUsers: `/api/${version}/manageUsers/getAllUsers`,
   DeleteUserByAdmin: `/api/${version}/manageUsers/deleteUserByAdmin`,
   searchUsers: `/api/${version}/manageUsers/search`,
@@ -17,6 +18,10 @@ export const PathName = {
   revokeShare: `/api/${version}/manageDocs/revokeShare`,
   getSharedDocumentByOthers: `/api/${version}/manageDocs/getSharedDocumentByOthers`,
   EditUsersByAdmin: `/api/${version}/manageUsers/editUserByAdmin`,
+  CreateGroup: `/api/${version}/chatService/createGroup`,
+  GetAllUserGroups: `/api/${version}/chatService/getAllUserGroups`,
+  AddMembers: `/api/${version}/chatService/group/addMembers`,
+  MakeAdmin: `/api/${version}/chatService/group/makeAdmin`,
   forgotPassword: `/api/${version}/users/forgotPassword`,
   verifyOtp: `/api/${version}/users/verifyOtp`,
   NotFound: "/*",
@@ -24,7 +29,7 @@ export const PathName = {
 
 export const PublicRoute = [
   PathName.Login,
-  PathName.Register,
+  PathName.Register, PathName.UploadFile,
   PathName.forgotPassword,
   PathName.verifyOtp,
 ];

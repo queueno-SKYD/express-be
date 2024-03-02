@@ -1,49 +1,33 @@
 import { Router } from "express";
-import {
-  RegisterUser,
-  Login,
-  Me,
-  GetAllUsers,
-  NotFound,
-  UploadDocument,
-  GetDocument,
-  GetDocuments,
-  DeleteDocument,
-  EditDocument,
-  SearchUsers,
-  ShareDocument,
-  GetShareDetails,
-  RevokeAccess,
-  ShareDocumentWithMultipleUsers,
-  GetShareDocumentsByOthers,
-  ForgotPassword,
-  VerifyOtp
-} from "../controller";
 import { PathName } from "./pathName";
-import { DeleteUserByAdmin, EditUserByAdmin } from "../controller/admin/admin.controller";
-export const routes = (router: Router) => {
-  router.post(PathName.Register, RegisterUser);
-  router.post(PathName.Login, Login);
-  router.post(PathName.Me, Me);
-  router.post(PathName.AllUsers,GetAllUsers);
-  router.post(PathName.DeleteUserByAdmin,DeleteUserByAdmin);
-  router.get(PathName.Me, Me);
-  router.post(PathName.AllUsers, GetAllUsers);
-  router.post(PathName.uploadDocument, UploadDocument);
-  router.post(PathName.getDocument, GetDocument);
-  router.post(PathName.getDocuments, GetDocuments);
-  router.post(PathName.deleteDocument, DeleteDocument);
-  router.post(PathName.editDocument, EditDocument);
-  router.post(PathName.searchUsers, SearchUsers);
-  router.post(PathName.shareDocument, ShareDocument);
-  router.post(PathName.shareWithMultipleUsers, ShareDocumentWithMultipleUsers);
-  router.post(PathName.getShareDetails, GetShareDetails);
-  router.post(PathName.revokeShare, RevokeAccess);
-  router.post(PathName.getSharedDocumentByOthers, GetShareDocumentsByOthers);
-  router.post(PathName.EditUsersByAdmin, EditUserByAdmin);
-  router.post(PathName.forgotPassword, ForgotPassword);
-  router.post(PathName.verifyOtp, VerifyOtp);
+import controllers from "../controller";
+import { uploadFile } from "../controller/fileUpload/uploadFile.controller";
 
-  router.all(PathName.NotFound, NotFound);
+export const routes = (router: Router) => {
+  router.post(PathName.Register, controllers.RegisterUser);
+  router.post(PathName.Login, controllers.Login);
+  router.post(PathName.DeleteUserByAdmin, controllers.DeleteUserByAdmin);
+  router.get(PathName.Me, controllers.Me);
+  router.post(PathName.AllUsers, controllers.GetAllUsers);
+  router.post(PathName.uploadDocument, controllers.UploadDocument);
+  router.post(PathName.getDocument, controllers.GetDocument);
+  router.post(PathName.getDocuments, controllers.GetDocuments);
+  router.post(PathName.deleteDocument, controllers.DeleteDocument);
+  router.post(PathName.editDocument, controllers.EditDocument);
+  router.post(PathName.searchUsers, controllers.SearchUsers);
+  router.post(PathName.shareDocument, controllers.ShareDocument);
+  router.post(PathName.shareWithMultipleUsers, controllers.ShareDocumentWithMultipleUsers);
+  router.post(PathName.getShareDetails, controllers.GetShareDetails);
+  router.post(PathName.revokeShare, controllers.RevokeAccess);
+  router.post(PathName.getSharedDocumentByOthers, controllers.GetShareDocumentsByOthers);
+  router.post(PathName.EditUsersByAdmin, controllers.EditUserByAdmin);
+  router.post(PathName.CreateGroup, controllers.CreateGroup);
+  router.post(PathName.GetAllUserGroups, controllers.GetAllUserGroups);
+  router.post(PathName.AddMembers, controllers.AddMembers);
+  router.post(PathName.MakeAdmin, controllers.MakeAdmin);
+  router.post(PathName.UploadFile, uploadFile);
+  router.post(PathName.forgotPassword, controllers.ForgotPassword);
+  router.post(PathName.verifyOtp, controllers.VerifyOtp);
+  router.all(PathName.NotFound, controllers.NotFound);
 };
                                                                                                                                            

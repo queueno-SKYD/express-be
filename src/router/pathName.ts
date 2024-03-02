@@ -17,7 +17,14 @@ export const PathName = {
   revokeShare: `/api/${version}/manageDocs/revokeShare`,
   getSharedDocumentByOthers: `/api/${version}/manageDocs/getSharedDocumentByOthers`,
   EditUsersByAdmin: `/api/${version}/manageUsers/editUserByAdmin`,
+  forgotPassword: `/api/${version}/users/forgotPassword`,
+  verifyOtp: `/api/${version}/users/verifyOtp`,
   NotFound: "/*",
 };
 
-export const PublicRoute = [PathName.Login, PathName.Register];
+export const PublicRoute = [
+  PathName.Login,
+  PathName.Register,
+  PathName.forgotPassword,
+  PathName.verifyOtp,
+];

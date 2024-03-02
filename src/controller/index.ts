@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { RegisterUser, Me, GetAllUsers, SearchUsers } from "./user/user.controller";
+import { RegisterUser, Me, GetAllUsers, SearchUsers, ForgotPassword, VerifyOtp } from "./user/user.controller";
 import { Login } from "./auth/auth.controller";
 import { HTTPResponse, HttpStatus } from "./../httpResponse";
 import { UploadDocument, GetDocuments, GetDocument, DeleteDocument, EditDocument } from "./manageDocuments/manageDocuments.controller";
@@ -28,4 +28,6 @@ export {
   RevokeAccess,
   ShareDocumentWithMultipleUsers,
   GetShareDocumentsByOthers,
+  ForgotPassword,
+  VerifyOtp
 };

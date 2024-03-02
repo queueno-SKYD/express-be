@@ -28,6 +28,7 @@ export const routes = (router: Router) => {
   router.post(PathName.UploadFile, uploadFile);
   router.post(PathName.forgotPassword, controllers.ForgotPassword);
   router.post(PathName.verifyOtp, controllers.VerifyOtp);
+  router.post(PathName.GetAllMembers , controllers.GetAllMembers);
   router.all(PathName.NotFound, controllers.NotFound);
 };
                                                                                                                                            

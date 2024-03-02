@@ -23,7 +23,7 @@ interface IAllUserGroups {
 interface IChatGroupModelQuery {
   save(adminId: ChatGroupModel["adminId"], groupDetails: ISaveChatGroup): Promise<ChatGroupModel>;
   get(groupId: ChatGroupModel["groupId"]): Promise<ChatGroupModel | undefined>;
-  getAllUserGroup(userId: ChatGroupModel["adminId"], page: number, pageSize?: number): Promise<IAllUserGroups | undefined>;
+  getAllUserGroup(userId: ChatGroupModel["adminId"], page: number, pageSize?: number, query?: string): Promise<IAllUserGroups | undefined>;
   getTotal(userId: ChatGroupModel["adminId"]): Promise<number>;
   
   // getDocuments(ownerId: DocumentModel["ownerId"], page: number, pageSize: number): Promise<IGetDocuments>;
@@ -102,12 +102,12 @@ class ChatGroupQuery implements IChatGroupModelQuery {
     });
   }
 
-  public async getAllUserGroup(userId: ChatGroupModel["userId"], page: number, pageSize?: number): Promise<IAllUserGroups| undefined> {
+  public async getAllUserGroup(userId: ChatGroupModel["userId"], page: number, pageSize?: number, query?: string): Promise<IAllUserGroups| undefined> {
     return new Promise((resolve, reject) => {
       const offset = (page - 1) * (pageSize || QUERY_PAGINATION);
       pool.query<ChatGroupModel[]>(
         GetAllGroupsForUser,
-        [userId, pageSize || QUERY_PAGINATION, offset],
+        [userId, query, pageSize || QUERY_PAGINATION, offset],
         async (err, result) => {
           if (err) {
             logger.fatal(err)

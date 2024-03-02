@@ -14,3 +14,9 @@ export const makeAdminValidation = Joi.object({
 export const getGroupDetailsValidation = Joi.object({
   fileId: Joi.number().required().min(1),
 });
+
+export const getAllMembersValidation = Joi.object({
+  groupId: Joi.number().required(),
+  page: Joi.number().required().min(1),
+  pageSize: Joi.number().min(1),
+});

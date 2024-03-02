@@ -8,6 +8,7 @@ export const createGroupValidation = Joi.object({
 });
 
 export const getGroupsValidation = Joi.object({
+  query: Joi.string().allow(""),
   page: Joi.number().required().min(1),
   pageSize: Joi.number().min(1),
 });

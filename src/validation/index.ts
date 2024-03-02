@@ -3,6 +3,7 @@ import { createDocumentValidation, editDocumentParamsValidation, getDocumentPara
 import { getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation, shareDocumentValidation, shareMultiDocumentValidation } from "./shareDoc/shareDoc.validation";
 import { createGroupValidation, getGroupsValidation } from "./chatGroup/chatGroup.validation";
 import { addNewGroupMembersValidation, makeAdminValidation } from "./chatGroupMember/chatGroupMember.validation";
+import { isOTPExpired } from "./otp";
 
 export {
   registerValidation,
@@ -19,4 +20,5 @@ export {
   getGroupsValidation,
   addNewGroupMembersValidation,
   makeAdminValidation,
+  isOTPExpired
 };

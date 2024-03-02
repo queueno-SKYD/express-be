@@ -22,7 +22,14 @@ export const PathName = {
   GetAllUserGroups: `/api/${version}/chatService/getAllUserGroups`,
   AddMembers: `/api/${version}/chatService/group/addMembers`,
   MakeAdmin: `/api/${version}/chatService/group/makeAdmin`,
+  forgotPassword: `/api/${version}/users/forgotPassword`,
+  verifyOtp: `/api/${version}/users/verifyOtp`,
   NotFound: "/*",
 };
 
-export const PublicRoute = [PathName.Login, PathName.Register, PathName.UploadFile];
+export const PublicRoute = [
+  PathName.Login,
+  PathName.Register, PathName.UploadFile,
+  PathName.forgotPassword,
+  PathName.verifyOtp,
+];

@@ -1,20 +1,27 @@
-import env from "../env"
+import env from "../env";
 
 export enum tablesName {
   userTable = "userTable",
+  otpTable = "otpTable",
 }
 export enum userTable {
-  userId ="userId",
-  firstName="firstName",
-  lastName="lastName",
-  email="email",
-  imageURL="imageURL",
-  createdBy="createdBy",
-  deleted="deleted",
-  deleteBy="deleteBy",
-  createdAt="createdAt",
-  password="password",
-  userType="userType",
+  userId = "userId",
+  firstName = "firstName",
+  lastName = "lastName",
+  email = "email",
+  imageURL = "imageURL",
+  createdBy = "createdBy",
+  deleted = "deleted",
+  deleteBy = "deleteBy",
+  createdAt = "createdAt",
+  password = "password",
+  userType = "userType",
+}
+export enum otpTable {
+  emailId = "emailId",
+  otp = "otp",
+  createdAt = "createdAt",
+  otptype = "otptype",
 }
 
 export const initDBQuery = `

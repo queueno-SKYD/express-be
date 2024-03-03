@@ -63,7 +63,7 @@ export const GetAllUserGroups = async (req: Request, res: Response) => {
     }
     //#endregion
     //#region create new group
-    const result = await ChatGroupQuery.getAllUserGroup(user?.userId, body?.page, body?.pageSize);
+    const result = await ChatGroupQuery.getAllUserGroup(user?.userId, body?.page, body?.pageSize, body?.query);
     if (result) {
       return res.status(200).send(
         new HTTPResponse({

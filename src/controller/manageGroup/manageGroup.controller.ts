@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
-import { addNewGroupMembersValidation, makeAdminValidation } from "../../validation";
+import { addNewGroupMembersValidation, getAllMembersValidation, makeAdminValidation } from "../../validation";
 import { ChatGroupMememberQuery} from "../../query";
 
 export const AddMembers = async (req: Request, res: Response) => {
@@ -126,3 +126,51 @@ export const MakeAdmin = async (req: Request, res: Response) => {
   }
 };
 
+export const GetAllMembers = async (req: Request, res: Response) => {
+  try {
+    const body = req.body;
+    const user = res.locals.user;
+    //#region verify payload
+    const { error } = getAllMembersValidation.validate(body);
+    if (error) {
+      return res.status(200).send(
+        new HTTPResponse({statusCode: HttpStatus.WARNING.code, httpStatus: HttpStatus.WARNING.status, message: error.message})
+      );
+    }
+    //#endregion
+  
+    //#region check if admin then add new members
+
+    const result = await ChatGroupMememberQuery.getAll(body?.groupId, user?.userId, body?.page, body?.pageSize);
+    if (result) {
+      return res.status(200).send(
+        new HTTPResponse({
+          statusCode: HttpStatus.OK.code,
+          httpStatus: HttpStatus.OK.status,
+          message: "Members added",
+          data: result,
+        })
+      );
+    } else {
+      return res.status(502).send(
+        new HTTPResponse({
+          statusCode: HttpStatus.DATABASE_ERROR.code,
+          httpStatus: HttpStatus.DATABASE_ERROR.status,
+          message: "[Error] : database Error",
+          data: null,
+        })
+      );
+    }
+    //#endregion
+  } catch (error) {
+    console.log("Error ---->", error);
+    return res.status(500).send(
+      new HTTPResponse({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR.code,
+        httpStatus: HttpStatus.INTERNAL_SERVER_ERROR.status,
+        message: "Internal Server Error!",
+        data: error,
+      })
+    );
+  }
+};

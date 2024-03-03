@@ -6,7 +6,7 @@ import { UploadDocument, GetDocuments, GetDocument, DeleteDocument, EditDocument
 import { GetShareDetails, GetShareDocumentsByOthers, RevokeAccess, ShareDocument, ShareDocumentWithMultipleUsers } from "./shareDocument/shareDocument.controller";
 import { DeleteUserByAdmin, EditUserByAdmin } from "./admin/admin.controller";
 import { CreateGroup, GetAllUserGroups } from "./chatGroup/chatGroup.controller";
-import { AddMembers, MakeAdmin } from "./manageGroup/manageGroup.controller";
+import { AddMembers, MakeAdmin, GetAllMembers } from "./manageGroup/manageGroup.controller";
 
 const NotFound = async (_: Request, res: Response) => {
   return res.status(404).send(
@@ -38,5 +38,6 @@ export default {
   AddMembers,
   MakeAdmin,
   ForgotPassword,
-  VerifyOtp
+  VerifyOtp,
+  GetAllMembers,
 };

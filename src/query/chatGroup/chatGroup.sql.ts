@@ -26,6 +26,7 @@ export const GetAllGroupsForUser = `
           FROM groupMemberTable 
           WHERE userId = ?
       )
+      AND (COALESCE(name, '') LIKE CONCAT('%', COALESCE(?, ''), '%'))
   GROUP BY 
     gt.groupId, gt.name, gt.description
   Limit ?

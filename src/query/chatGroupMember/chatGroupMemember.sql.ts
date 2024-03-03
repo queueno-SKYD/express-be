@@ -11,9 +11,15 @@ export const SaveGroupAllMemberQuery = (placeholders: string) => `
 ;
 
 export const GetAllGroupMembers = `
-  SELECT * from groupMemberTable
-  WHERE groupId = ? and userId = ?
-  ORDER BY memberId
+  SELECT userTable.userId, firstName, lastName, imageURL, joinAt, userType, memberId, groupId, joinAt, isAdmin, permissions
+  FROM userTable join groupMemberTable on userTable.userId = groupMemberTable.userId
+  WHERE groupId = ?
+  ORDER BY
+    CASE 
+      WHEN userTable.userId = ? THEN 1
+      WHEN isAdmin = true THEN 2
+      ELSE 3
+    END
   Limit ?
   OFFSET ?
 `;

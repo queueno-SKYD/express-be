@@ -30,7 +30,7 @@ export const PathName = {
 
 export const PublicRoute = [
   PathName.Login,
-  PathName.Register, PathName.UploadFile,
+  PathName.Register,
   PathName.forgotPassword,
   PathName.verifyOtp,
 ];

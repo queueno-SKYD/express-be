@@ -14,6 +14,7 @@ interface IHttpStatus {
   UN_AUTHORISED:IStatus;
   DATABASE_ERROR :IStatus;
   CONFLICT:IStatus;
+  PAYLOAD_TOO_LARGE: IStatus;
 }
 
 const HttpStatus: IHttpStatus = {
@@ -27,6 +28,7 @@ const HttpStatus: IHttpStatus = {
   DATABASE_ERROR :{code:502,status :"DATABASE_ERROR"},
   UN_AUTHORISED: {code: 401, status: "ALERT"},
   CONFLICT: {code: 409, status: "CONFLICT"},
+  PAYLOAD_TOO_LARGE: {code: 413, status: "CONTENT_TOO_LARGE"}
 }
 
 export default HttpStatus;

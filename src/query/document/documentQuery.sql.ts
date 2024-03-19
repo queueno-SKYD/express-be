@@ -1,34 +1,35 @@
-export const createDocumentQuery = `
-  INSERT INTO documentTable 
-  (ownerId, label, fileURL) 
-  VALUES(?, ?, ?)
+import { FileDatabase } from "../../model/documentModel";
+export const createDocumentQuery = (tableName: FileDatabase) => `
+  INSERT INTO ${tableName} 
+  (ownerId, label, fileURL, name, mimeType) 
+  VALUES(?, ?, ?, ?, ?)
 `;
 
-export const getAllDocumentQuery = `
-  SELECT * from documentTable WHERE ownerId = ? and deleted = 0
+export const getAllDocumentQuery = (tableName: FileDatabase) => `
+  SELECT * from ${tableName} WHERE ownerId = ? and deleted = 0
   ORDER BY fileId
   Limit ?
   OFFSET ?
 ;
 `;
 
-export const getDocumentQuery = `
+export const getDocumentQuery = (tableName: FileDatabase) => `
   SELECT * 
-  FROM  documentTable WHERE fileId = ? and ownerId = ? and deleted = 0`
+  FROM  ${tableName} WHERE fileId = ? and ownerId = ? and deleted = 0`
 ;
 
-export const getTotalQuery = `
-  SELECT COUNT(*) as total FROM documentTable WHERE ownerId = ?
+export const getTotalQuery = (tableName: FileDatabase) => `
+  SELECT COUNT(*) as total FROM ${tableName} WHERE ownerId = ?
 `;
 
-export const deleteDocumentQuery = `
-  UPDATE documentTable SET deleted = 1, deleteBy = ? WHERE ownerId = ? and fileId = ?
+export const deleteDocumentQuery = (tableName: FileDatabase) => `
+  UPDATE ${tableName} SET deleted = 1, deleteBy = ? WHERE ownerId = ? and fileId = ?
 `;
 
-export const hardDeleteDocumentQuery = `
-  DELETE FROM documentTable WHERE userId = ?
+export const hardDeleteDocumentQuery = (tableName: FileDatabase) => `
+  DELETE FROM ${tableName} WHERE userId = ?
 `;
 
-export const updateDocumentQuery = (setClause: string) => `
-  UPDATE documentTable SET ${setClause} WHERE fileId = ? and ownerId = ?
+export const updateDocumentQuery = (setClause: string, tableName: FileDatabase) => `
+  UPDATE ${tableName} SET ${setClause} WHERE fileId = ? and ownerId = ?
 `;

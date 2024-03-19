@@ -8,6 +8,7 @@ export const routes = (router: Router) => {
   router.post(PathName.Login, controllers.Login);
   router.post(PathName.DeleteUserByAdmin, controllers.DeleteUserByAdmin);
   router.get(PathName.Me, controllers.Me);
+  router.post(PathName.Me, controllers.Me);
   router.post(PathName.AllUsers, controllers.GetAllUsers);
   router.post(PathName.uploadDocument, controllers.UploadDocument);
   router.post(PathName.getDocument, controllers.GetDocument);

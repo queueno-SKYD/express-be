@@ -90,13 +90,8 @@ export const Me = async (req: Request, res: Response) => {
   const body = req.body;
   const user = res.locals.user;
   if (body?.firstName || body?.lastname || body?.imageURL) {
-    const updateData = {
-      firstName: body?.firstName,
-      lastname: body?.lastname,
-      imageUrl: body?.imageURL,
-    };
     try {
-      const updatedUser = await UserQuery.update(user.userId, updateData);
+      const updatedUser = await UserQuery.update(user.userId, body);
       return res.status(200).send(
         new HTTPResponse({
           statusCode: HttpStatus.OK.code,

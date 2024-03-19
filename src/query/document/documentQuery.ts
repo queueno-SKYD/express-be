@@ -1,5 +1,5 @@
 import pool from "../../database";
-import DocumentModel from "../../model/documentModel";
+import DocumentModel, { FileDatabase } from "../../model/documentModel";
 import { ResultSetHeader } from "mysql2";
 import logger from "../../../logger";
 import { createDocumentQuery, getDocumentQuery, getAllDocumentQuery, getTotalQuery, deleteDocumentQuery, updateDocumentQuery } from "./documentQuery.sql";
@@ -13,8 +13,10 @@ interface IGetDocuments {
 }
 
 interface ISaveDocuments {
-  label: string;
   fileURL: string;
+  label?: string;
+  name?: string;
+  mimeType?: string;
 }
 
 interface IUpdateDocuments {
@@ -24,23 +26,23 @@ interface IUpdateDocuments {
 }
 
 interface IDocumentModalQuery {
-  save(ownerId: DocumentModel["ownerId"], document: ISaveDocuments): Promise<DocumentModel>;
-  getDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"]): Promise<DocumentModel | undefined>;
-  getDocuments(ownerId: DocumentModel["ownerId"], page: number, pageSize: number): Promise<IGetDocuments>;
-  getTotal(ownerId: DocumentModel["ownerId"]): Promise<number>;
-  deleteDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], deletedBy: DocumentModel["ownerId"]): Promise<number>;
-  update(ownerId: DocumentModel["ownerId"], payload: IUpdateDocuments): Promise<number>;
+  save(ownerId: DocumentModel["ownerId"], document: ISaveDocuments, databaseName: FileDatabase): Promise<DocumentModel>;
+  getDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], databaseName: FileDatabase): Promise<DocumentModel | undefined>;
+  getDocuments(ownerId: DocumentModel["ownerId"], page: number, databaseName: FileDatabase, pageSize?: number): Promise<IGetDocuments>;
+  getTotal(ownerId: DocumentModel["ownerId"], databaseName: FileDatabase): Promise<number>;
+  deleteDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], deletedBy: DocumentModel["ownerId"], databaseName: FileDatabase): Promise<number>;
+  update(ownerId: DocumentModel["ownerId"], payload: IUpdateDocuments, databaseName: FileDatabase): Promise<number>;
   // delete(userId: DocumentModel["userId"]): Promise<number>;
   // hardDelete(userId: DocumentModel["userId"]): Promise<number>;
   // deleteAll(): Promise<number>;
 }
 
 class DocumentModalQuery implements IDocumentModalQuery {
-  public async save(ownerId: DocumentModel["ownerId"], document: ISaveDocuments): Promise<DocumentModel> {
+  public async save(ownerId: DocumentModel["ownerId"], document: ISaveDocuments, databaseName: FileDatabase): Promise<DocumentModel> {
     return new Promise((resolve, reject) => {
       pool.query<ResultSetHeader>(
-        createDocumentQuery,
-        [ownerId, document.label, document.fileURL],
+        createDocumentQuery(databaseName),
+        [ownerId, document.label, document.fileURL, document?.name, document?.mimeType],
         async (err, result) => {
           if (err) {
             logger.fatal(err.message)
@@ -48,7 +50,7 @@ class DocumentModalQuery implements IDocumentModalQuery {
           } else {
             const fileId = result.insertId;
             logger.info({createdUserId: fileId}, "document created")
-            const documentDetails = await this.getDocument(fileId, ownerId)
+            const documentDetails = await this.getDocument(fileId, ownerId, databaseName)
             if (documentDetails) {
               resolve(documentDetails)
             } else {
@@ -60,10 +62,10 @@ class DocumentModalQuery implements IDocumentModalQuery {
     });
   }
 
-  public async getDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"]): Promise<DocumentModel> {
+  public async getDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], databaseName: FileDatabase): Promise<DocumentModel> {
     return new Promise((resolve, reject) => {
       pool.query<DocumentModel[]>(
-        getDocumentQuery,
+        getDocumentQuery(databaseName),
         [fileId, ownerId],
         (err, result) => {
           if (err) {
@@ -83,11 +85,11 @@ class DocumentModalQuery implements IDocumentModalQuery {
     });
   }
 
-  public async getDocuments(ownerId: DocumentModel["ownerId"], page: number, pageSize?: number): Promise<IGetDocuments> {
+  public async getDocuments(ownerId: DocumentModel["ownerId"], page: number, databaseName: FileDatabase, pageSize?: number): Promise<IGetDocuments> {
     return new Promise((resolve, reject) => {
       const offset = (page - 1) * (pageSize || QUERY_PAGINATION);
       pool.query<DocumentModel[]>(
-        getAllDocumentQuery,
+        getAllDocumentQuery(databaseName),
         [ownerId, pageSize || QUERY_PAGINATION, offset],
         async (err, result) => {
           if (err) {
@@ -100,7 +102,7 @@ class DocumentModalQuery implements IDocumentModalQuery {
               logger.info("document Not Found")
             }
             try {
-              const total = await this.getTotal(ownerId)
+              const total = await this.getTotal(ownerId, databaseName)
               const queryResponse: IGetDocuments = {
                 data: result,
                 page: page,
@@ -118,10 +120,10 @@ class DocumentModalQuery implements IDocumentModalQuery {
     });
   }
 
-  public async getTotal(ownerId: DocumentModel["ownerId"]): Promise<number> {
+  public async getTotal(ownerId: DocumentModel["ownerId"], databaseName: FileDatabase): Promise<number> {
     return new Promise((resolve, reject) => {
       pool.query(
-        getTotalQuery,
+        getTotalQuery(databaseName),
         [ownerId],
         (err, result) => {
           if (err) {
@@ -140,10 +142,10 @@ class DocumentModalQuery implements IDocumentModalQuery {
       )
     });
   }
-  public async deleteDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], deletedBy: DocumentModel["ownerId"]): Promise<number> {
+  public async deleteDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], deletedBy: DocumentModel["ownerId"], databaseName: FileDatabase): Promise<number> {
     return new Promise((resolve, reject) => {
       pool.query<ResultSetHeader>(
-        deleteDocumentQuery, //deleteBy = ? WHERE ownerId = ? and fileId = ?
+        deleteDocumentQuery(databaseName), //deleteBy = ? WHERE ownerId = ? and fileId = ?
         [deletedBy, ownerId, fileId],
         (err, result) => {
           if (err) {
@@ -162,7 +164,7 @@ class DocumentModalQuery implements IDocumentModalQuery {
     });
   }
 
-  public async update(ownerId: DocumentModel["ownerId"], payload: IUpdateDocuments): Promise<number> {
+  public async update(ownerId: DocumentModel["ownerId"], payload: IUpdateDocuments, databaseName: FileDatabase): Promise<number> {
     const payloadWithoutFileId = {...payload, fileId: null}
     const setClause = Object.keys(payloadWithoutFileId)
       .map((key) => payloadWithoutFileId[key] ? `${key} = ?` : null)
@@ -171,7 +173,7 @@ class DocumentModalQuery implements IDocumentModalQuery {
     const values = Object.values(payloadWithoutFileId).filter(a => a);
     return new Promise((resolve, reject) => {
       pool.query<ResultSetHeader>(
-        updateDocumentQuery(setClause), //deleteBy = ? WHERE ownerId = ? and fileId = ?
+        updateDocumentQuery(setClause, databaseName), //deleteBy = ? WHERE ownerId = ? and fileId = ?
         [...values, payload.fileId, ownerId],
         (err, result) => {
           if (err) {

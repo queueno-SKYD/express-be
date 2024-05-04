@@ -6,15 +6,18 @@ export const createDocumentValidation = Joi.object({
 });
 
 export const getDocumentsParamsValidation = Joi.object({
+  fileType: Joi.string(),
   page: Joi.number().required().min(1),
   pageSize: Joi.number().min(1),
 });
 
 export const getDocumentParamsValidation = Joi.object({
+  fileType: Joi.string(),
   fileId: Joi.number().required().min(1),
 });
 
 export const editDocumentParamsValidation = Joi.object({
+  fileType: Joi.string(),
   fileId: Joi.number().required().min(1),
   label: Joi.string(),
   fileURL: Joi.string(),

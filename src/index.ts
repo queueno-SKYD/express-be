@@ -25,6 +25,30 @@ app.get("/uploads/:fileId", (req, res) => {
   res.sendFile(filePath);
 });
 
+app.get("/uploads/images/:fileId", (req, res) => {
+  const fileId = req.params.fileId;
+  const uploadsDir = path.join(__dirname, "..", "uploads", "images");
+  const filePath = path.join(uploadsDir, fileId);
+  // Serve the file from the uploads directory
+  res.sendFile(filePath);
+});
+
+app.get("/uploads/media/:fileId", (req, res) => {
+  const fileId = req.params.fileId;
+  const uploadsDir = path.join(__dirname, "..", "uploads", "media");
+  const filePath = path.join(uploadsDir, fileId);
+  // Serve the file from the uploads directory
+  res.sendFile(filePath);
+});
+
+app.get("/uploads/others/:fileId", (req, res) => {
+  const fileId = req.params.fileId;
+  const uploadsDir = path.join(__dirname, "..", "uploads", "others");
+  const filePath = path.join(uploadsDir, fileId);
+  // Serve the file from the uploads directory
+  res.sendFile(filePath);
+});
+
 app.use(UserAuthenticate)
 
 // app.use((_: Request, res: Response) => {

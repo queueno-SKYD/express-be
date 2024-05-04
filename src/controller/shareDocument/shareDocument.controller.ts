@@ -3,6 +3,7 @@ import { ShareDocumentQuery, DocumentQuery } from "../../query";
 import { shareDocumentValidation, shareMultiDocumentValidation, getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import logger from "../../../logger";
+import { FileDatabase } from "../../model/documentModel";
 
 export const ShareDocument = async (req: Request, res: Response) => {
   const body = req.body;
@@ -20,7 +21,7 @@ export const ShareDocument = async (req: Request, res: Response) => {
   //#endregion
 
   try {
-    const document = await DocumentQuery.getDocument(body.fileId, userDetails.userId);
+    const document = await DocumentQuery.getDocument(body.fileId, userDetails.userId, FileDatabase.documentTable);
     if (!document.fileId) {
       res.status(400).send(new HTTPResponse({statusCode: HttpStatus.BAD_REQUEST.code, httpStatus: HttpStatus.BAD_REQUEST.status, message: "You are not the owner", data: null}));
     }
@@ -49,7 +50,7 @@ export const ShareDocumentWithMultipleUsers = async (req: Request, res: Response
   //#endregion
 
   try {
-    const document = await DocumentQuery.getDocument(body.fileId, userDetails.userId);
+    const document = await DocumentQuery.getDocument(body.fileId, userDetails.userId, FileDatabase.documentTable);
     if (!document.fileId) {
       res.status(400).send(new HTTPResponse({statusCode: HttpStatus.BAD_REQUEST.code, httpStatus: HttpStatus.BAD_REQUEST.status, message: "You are not the owner", data: null}));
     }
@@ -77,7 +78,7 @@ export const GetShareDetails = async (req: Request, res: Response) => {
   //#endregion
 
   try {
-    const document = await DocumentQuery.getDocument(body.fileId, userDetails.userId);
+    const document = await DocumentQuery.getDocument(body.fileId, userDetails.userId, FileDatabase.documentTable);
     if (!document.fileId) {
       res.status(400).send(new HTTPResponse({statusCode: HttpStatus.BAD_REQUEST.code, httpStatus: HttpStatus.BAD_REQUEST.status, message: "You are not the owner", data: null}));
     }
@@ -128,7 +129,7 @@ export const RevokeAccess = async (req: Request, res: Response) => {
   }
   //#endregion
   try {
-    const document = await DocumentQuery.getDocument(body.fileId, userDetails.userId);
+    const document = await DocumentQuery.getDocument(body.fileId, userDetails.userId, FileDatabase.documentTable);
     if (!document.fileId) {
       res.status(400).send(new HTTPResponse({statusCode: HttpStatus.BAD_REQUEST.code, httpStatus: HttpStatus.BAD_REQUEST.status, message: "You are not the owner", data: null}));
     }

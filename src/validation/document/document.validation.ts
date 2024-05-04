@@ -19,3 +19,9 @@ export const editDocumentParamsValidation = Joi.object({
   label: Joi.string(),
   fileURL: Joi.string(),
 });
+
+export const uploadfileValidation = Joi.object({
+  name: Joi.string().allow(""),
+  file: Joi.any().required(), // Assuming file is handled by Multer and is available in req.file
+  groupId: Joi.number(),
+});

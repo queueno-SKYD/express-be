@@ -3,6 +3,7 @@ import { DocumentQuery } from "../../query";
 import { createDocumentValidation, editDocumentParamsValidation, getDocumentParamsValidation, getDocumentsParamsValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import logger from "../../../logger";
+import { FileDatabase } from "../../model/documentModel";
 
 export const UploadDocument = async (req: Request, res: Response) => {
   const body = req.body;
@@ -20,7 +21,7 @@ export const UploadDocument = async (req: Request, res: Response) => {
   //#endregion
 
   try {
-    const data = await DocumentQuery.save(userDetails.userId, body);
+    const data = await DocumentQuery.save(userDetails.userId, body, FileDatabase.documentTable);
     logger.info(data, "document created")
     res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "Document uploaded successfully", data}));
   } catch (err: any) {
@@ -44,7 +45,7 @@ export const GetDocuments = async (req: Request, res: Response) => {
   //#endregion
 
   try {
-    const data = await DocumentQuery.getDocuments(userDetails.userId, body.page, body.pageSize);
+    const data = await DocumentQuery.getDocuments(userDetails.userId, body.page, FileDatabase.documentTable ,body.pageSize);
     res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "success", data}));
   } catch (err: any) {
     res.status(500).send(new HTTPResponse({statusCode: HttpStatus.INTERNAL_SERVER_ERROR.code, httpStatus: HttpStatus.INTERNAL_SERVER_ERROR.status, message: "ERROR: Document NOT uploaded, try after some time", data: err.message}));
@@ -67,7 +68,7 @@ export const GetDocument = async (req: Request, res: Response) => {
   //#endregion
 
   try {
-    const data = await DocumentQuery.getDocument(body.fileId, userDetails.userId);
+    const data = await DocumentQuery.getDocument(body.fileId, userDetails.userId, FileDatabase.documentTable);
     res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "success", data}));
   } catch (err: any) {
     res.status(500).send(new HTTPResponse({statusCode: HttpStatus.INTERNAL_SERVER_ERROR.code, httpStatus: HttpStatus.INTERNAL_SERVER_ERROR.status, message: "ERROR: Document NOT uploaded, try after some time", data: err.message}));
@@ -90,7 +91,7 @@ export const DeleteDocument = async (req: Request, res: Response) => {
   //#endregion
 
   try {
-    const data = await DocumentQuery.deleteDocument(body.fileId, userDetails.userId, userDetails.userId);
+    const data = await DocumentQuery.deleteDocument(body.fileId, userDetails.userId, userDetails.userId, FileDatabase.documentTable);
     res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "success", data}));
   } catch (err: any) {
     res.status(500).send(new HTTPResponse({statusCode: HttpStatus.INTERNAL_SERVER_ERROR.code, httpStatus: HttpStatus.INTERNAL_SERVER_ERROR.status, message: "ERROR: Document NOT uploaded, try after some time", data: err.message}));
@@ -113,7 +114,7 @@ export const EditDocument = async (req: Request, res: Response) => {
   //#endregion
 
   try {
-    const data = await DocumentQuery.update(userDetails.userId, body);
+    const data = await DocumentQuery.update(userDetails.userId, body, FileDatabase.documentTable);
     res.send(new HTTPResponse({statusCode: HttpStatus.OK.code, httpStatus: HttpStatus.OK.status, message: "success", data}));
   } catch (err: any) {
     res.status(500).send(new HTTPResponse({statusCode: HttpStatus.INTERNAL_SERVER_ERROR.code, httpStatus: HttpStatus.INTERNAL_SERVER_ERROR.status, message: "ERROR: Document NOT uploaded, try after some time", data: err.message}));

@@ -34,7 +34,7 @@ export const getShareDetailsByFileIdQuery = `
   INNER JOIN documentTable dt ON sd.fileId = dt.fileId
   INNER JOIN userTable ut ON sd.sharedUserId  = ut.userId
   WHERE
-  dt.fileId = ?
+  dt.fileId = ? and dt.deleted = 0
   ORDER BY
   sd.sharedOn DESC
   LIMIT ? OFFSET ?;
@@ -58,7 +58,7 @@ export const getSharedDocumentsByOtherQuery = `
   INNER JOIN documentTable dt ON sd.fileId = dt.fileId
   INNER JOIN userTable ut ON dt.ownerId  = ut.userId
   WHERE
-  sd.sharedUserId = ?
+  sd.sharedUserId = ? and dt.deleted = 0
   ORDER BY
   sd.sharedOn DESC
   LIMIT ? OFFSET ?;

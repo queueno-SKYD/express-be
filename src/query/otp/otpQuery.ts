@@ -61,7 +61,7 @@ class OTPQuery implements IOTPQuery {
               resolve(undefined);
               logger.info("User Not Found");
             }
-            logger.info(data, "found user");
+            logger.info(data.userId, "found user");
             if (data) {
               resolve(data);
             } else {
@@ -95,7 +95,7 @@ class OTPQuery implements IOTPQuery {
                 resolve(false);
                 logger.info("User Not Found");
               }
-              logger.info(data, "found user");
+              logger.info(data.userId, "found user");
               resolve(true);
             }
           }

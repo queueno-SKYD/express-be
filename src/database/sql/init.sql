@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS mediaTable (
 );
 
 CREATE TABLE IF NOT EXISTS groupTable (
-  groupId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  groupId BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
   adminId BIGINT UNSIGNED NOT NULL,
   description VARCHAR(255) NOT NULL,
@@ -97,8 +97,11 @@ CREATE TABLE IF NOT EXISTS groupTable (
   FOREIGN KEY (adminId) REFERENCES userTable(userId)
 );
 
+ALTER TABLE groupTable 
+MODIFY COLUMN groupId BIGINT UNSIGNED NOT NULL AUTO_INCREMENT;
+
 CREATE TABLE IF NOT EXISTS groupMemberTable (
-  memberId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  memberId BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
   groupId BIGINT NOT NULL,
   userId BIGINT UNSIGNED NOT NULL,
   joinAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -119,6 +122,46 @@ CREATE TABLE IF NOT EXISTS groupChatTable (
     FOREIGN KEY (senderId) REFERENCES groupMemberTable(memberId)
 );
 
+CREATE TABLE IF NOT EXISTS personalChatTable (
+  personalChatId BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  userId1 BIGINT UNSIGNED NOT NULL,
+  userId2 BIGINT UNSIGNED NOT NULL,
+  user1Permissions ENUM('read', 'write') DEFAULT 'write',
+  user2Permissions ENUM('read', 'write') DEFAULT 'write',
+  user1JoinedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  user2JoinedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  user1LastActive DATETIME DEFAULT CURRENT_TIMESTAMP,
+  user2LastActive DATETIME DEFAULT CURRENT_TIMESTAMP,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (userId1) REFERENCES userTable(userId),
+  FOREIGN KEY (userId2) REFERENCES userTable(userId)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS messageTable (
+  messageId BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  senderId BIGINT UNSIGNED NOT NULL,
+  recipientType VARCHAR(255) NOT NULL,
+  recipientId BIGINT UNSIGNED NOT NULL,
+  messageContentId BIGINT UNSIGNED NOT NULL, -- Assuming you have a separate message_content_table
+  msg VARCHAR(255) NOT NULL,
+  deliveryStatus ENUM('sent', 'delivered', 'read') NOT NULL DEFAULT 'sent',
+  sentAt DATETIME NOT NULL,
+  FOREIGN KEY (senderId) REFERENCES userTable(userId),
+  FOREIGN KEY (messageContentId) REFERENCES messageContentTable(messageContentId),
+  -- Add foreign key constraint for recipient_id based on recipient_type
+  CONSTRAINT fkGroupRecipient FOREIGN KEY (recipientId) REFERENCES groupTable(groupId) ON DELETE CASCADE,
+  CONSTRAINT fkPersonalRecipient FOREIGN KEY (recipientId) REFERENCES personalChatTable(personalChatId) ON DELETE CASCADE
+);
+
+ALTER TABLE messageTable 
+MODIFY COLUMN recipientType ENUM('group', 'personal') NOT NULL;
+
+CREATE TABLE IF NOT EXISTS messageContentTable (
+  messageContentId BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  content JSON NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS otpTable (
     emailId VARCHAR(255) DEFAULT NULL,

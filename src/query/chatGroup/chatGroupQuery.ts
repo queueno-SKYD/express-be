@@ -2,7 +2,7 @@ import { ResultSetHeader } from "mysql2";
 import pool from "../../database";
 import logger from "../../../logger";
 import ChatGroupModel from "../../model/chatGroupModel";
-import { GetAllGroupsForUser, GetGroupQuery, GetTotalGroupsForUser, SaveGroupQuery } from "./chatGroup.sql";
+import { GetAllGroupsForUser, GetGroupByMember, GetGroupQuery, GetTotalGroupsForUser, SaveGroupQuery } from "./chatGroup.sql";
 import { ChatGroupMememberQuery } from "../../query";
 import { QUERY_PAGINATION } from "../../util/consts";
 
@@ -25,7 +25,7 @@ interface IChatGroupModelQuery {
   get(groupId: ChatGroupModel["groupId"]): Promise<ChatGroupModel | undefined>;
   getAllUserGroup(userId: ChatGroupModel["adminId"], page: number, pageSize?: number, query?: string): Promise<IAllUserGroups | undefined>;
   getTotal(userId: ChatGroupModel["adminId"]): Promise<number>;
-  
+  getUserGroupByMember(groupId: ChatGroupModel["groupId"], userId: ChatGroupModel["adminId"]): Promise<ChatGroupModel | undefined>;
   // getDocuments(ownerId: DocumentModel["ownerId"], page: number, pageSize: number): Promise<IGetDocuments>;
   // getTotal(ownerId: DocumentModel["ownerId"]): Promise<number>;
   // deleteDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], deletedBy: DocumentModel["ownerId"]): Promise<number>;
@@ -130,6 +130,27 @@ class ChatGroupQuery implements IChatGroupModelQuery {
               resolve(queryResponse)
             } catch (error) {
               reject({message: `Error while getting groups for userId: ${userId}`, error})
+            }
+          }
+        }
+      )
+    })
+  }
+
+  getUserGroupByMember(groupId: ChatGroupModel["groupId"], userId: ChatGroupModel["adminId"]): Promise<ChatGroupModel | undefined> {
+    return new Promise((resolve, reject) => {
+      pool.query<ChatGroupModel[]>(
+        GetGroupByMember,
+        [groupId, userId],
+        async (err, result) => {
+          if (err) {
+            logger.fatal(err)
+            reject(err)
+          } else {
+            resolve(result[0])
+            if (result.length < 0) {
+              reject(`no groups group for userId: ${userId}`);
+              logger.info(`no groups group for userId: ${userId}`);
             }
           }
         }

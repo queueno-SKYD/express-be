@@ -33,6 +33,13 @@ export const GetAllGroupsForUser = `
   OFFSET ?
 `
 
+export const GetGroupByMember = `
+  SELECT g.*
+  FROM groupTable g
+  INNER JOIN groupMemberTable gm ON g.groupId = gm.groupId
+  WHERE g.groupId = ? AND gm.userId = ?;
+`
+
 export const GetTotalGroupsForUser = `
   SELECT
   COUNT(DISTINCT groupId) as total

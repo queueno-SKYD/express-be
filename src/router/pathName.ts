@@ -20,7 +20,6 @@ export const PathName = {
   CreateGroup: `/api/${version}/chatService/createGroup`,
   EditUsersByAdmin: `/api/${version}/manageUsers/editUserByAdmin`,
   WebSocket: "/socket.io/*",
-  CreateGroup: `/api/${version}/chatService/createGroup`,
   GetAllUserGroups: `/api/${version}/chatService/getAllUserGroups`,
   AddMembers: `/api/${version}/chatService/group/addMembers`,
   MakeAdmin: `/api/${version}/chatService/group/makeAdmin`,

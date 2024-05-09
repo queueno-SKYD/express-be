@@ -2,7 +2,7 @@ import express, {Request, Response} from "express";
 import cors from "cors";
 import { routes, wsRoute } from "./router/routes";
 import env from "./env";
-import { UserAuthenticate, UserAuthenticateWS } from "./middleware";
+import { UserAuthenticate } from "./middleware";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import path from "path";
@@ -62,14 +62,9 @@ const io = new Server(httpServer, {
   }
 });
 
-io.use(UserAuthenticateWS)
+// io.use(UserAuthenticateWS)
 wsRoute(io)
-// app.use((_: Request, res: Response) => {
-//   res.status(404).send(
-//     new HTTPResponse({statusCode: HttpStatus.NOT_FOUND.code, httpStatus: HttpStatus.NOT_FOUND.status, message: "path not found"})
-//   ).json({ message: "Not Found" });
-// });
-// import routes from router
+
 routes(app);
 
 app.get("/", (req: Request, res: Response) => {
@@ -78,6 +73,5 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 httpServer.listen(env.EXPRESS_PORT ,async () => {
-  // await getDatabase();
   console.log("INFO :: Webserver started on port " + env.EXPRESS_PORT);
 });

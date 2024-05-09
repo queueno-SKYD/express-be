@@ -1,7 +1,7 @@
 import { Router } from "express";
 import controllers from "../controller";
 
-import { initPersonalSocketIoEvents } from "../services/chat/personalChat.services";
+import { initGroupSocketIoEvents } from "../services/chat/personalChat.services";
 import { PathName } from "./pathName";
 import { Server } from "socket.io";
 import { uploadFile } from "../controller/fileUpload/uploadFile.controller";
@@ -38,6 +38,7 @@ export const routes = (router: Router) => {
 };
 
 export const wsRoute = (io: Server) => {
-  initPersonalSocketIoEvents(io)
+  // initPersonalSocketIoEvents(io)
+  initGroupSocketIoEvents(io)
 }
                                                                                                                                            

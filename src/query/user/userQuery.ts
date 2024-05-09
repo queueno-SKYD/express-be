@@ -59,7 +59,7 @@ class UserModalQuery implements IUserModalQuery {
                 reject("User Not Found");
                 logger.info("User Not Found")
               }
-              logger.info(data, "found user")
+              logger.info(data.userId, "found user")
               resolve(data)
             }
           }

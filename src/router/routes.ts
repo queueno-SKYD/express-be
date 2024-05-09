@@ -1,17 +1,16 @@
 import { Router } from "express";
-
 import controllers from "../controller";
 
 import { initPersonalSocketIoEvents } from "../services/chat/personalChat.services";
 import { PathName } from "./pathName";
 import { Server } from "socket.io";
+import { uploadFile } from "../controller/fileUpload/uploadFile.controller";
 
 export const routes = (router: Router) => {
   router.post(PathName.Register, controllers.RegisterUser);
   router.post(PathName.Login, controllers.Login);
   router.post(PathName.Me, controllers.Me);
   // router.all(PathName.NotFound,NotFound);
-  router.post(PathName.AllUsers, controllers.GetAllUsers);
   router.post(PathName.DeleteUserByAdmin, controllers.DeleteUserByAdmin);
   router.get(PathName.Me, controllers.Me);
   router.post(PathName.AllUsers, controllers.GetAllUsers);
@@ -28,7 +27,13 @@ export const routes = (router: Router) => {
   router.post(PathName.getSharedDocumentByOthers, controllers.GetShareDocumentsByOthers);
   router.post(PathName.EditUsersByAdmin, controllers.EditUserByAdmin);
   router.post(PathName.CreateGroup, controllers.CreateGroup);
-  router.all(PathName.WebSocket, (_, res) => res.send(200))
+  router.post(PathName.GetAllUserGroups, controllers.GetAllUserGroups);
+  router.post(PathName.AddMembers, controllers.AddMembers);
+  router.post(PathName.MakeAdmin, controllers.MakeAdmin);
+  router.post(PathName.UploadFile, uploadFile);
+  router.post(PathName.forgotPassword, controllers.ForgotPassword);
+  router.post(PathName.verifyOtp, controllers.VerifyOtp);
+  router.post(PathName.GetAllMembers , controllers.GetAllMembers);
   router.all(PathName.NotFound, controllers.NotFound);
 };
 

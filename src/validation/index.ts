@@ -1,9 +1,12 @@
 import { registerValidation, searchInputValidation } from "./register/register.validation";
-import { createDocumentValidation, editDocumentParamsValidation, getDocumentParamsValidation, getDocumentsParamsValidation } from "./document/document.validation";
-import {getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation, shareDocumentValidation, shareMultiDocumentValidation} from "./shareDoc/shareDoc.validation";
+import { createDocumentValidation, editDocumentParamsValidation, getDocumentParamsValidation, getDocumentsParamsValidation, uploadfileValidation } from "./document/document.validation";
+import { getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation, shareDocumentValidation, shareMultiDocumentValidation } from "./shareDoc/shareDoc.validation";
 
 import { personalChatMessageValidation } from "./chatMessage/chat.validation";
 import { createGroupValidation } from "./chatGroup/chatGroup.validation";
+import { createGroupValidation, getGroupsValidation } from "./chatGroup/chatGroup.validation";
+import { addNewGroupMembersValidation, makeAdminValidation, getAllMembersValidation } from "./chatGroupMember/chatGroupMember.validation";
+import { isOTPExpired } from "./otp";
 
 export {
   registerValidation,
@@ -18,4 +21,11 @@ export {
   getShareDocumentByOthersParamValidation,
   personalChatMessageValidation,
   createGroupValidation,
+  createGroupValidation,
+  getGroupsValidation,
+  addNewGroupMembersValidation,
+  makeAdminValidation,
+  isOTPExpired,
+  getAllMembersValidation,
+  uploadfileValidation,
 };

@@ -11,5 +11,5 @@ export const registerValidation = Joi.object({
 });
 
 export const searchInputValidation = Joi.object({
-  query: Joi.string().required(),
+  query: Joi.string().allow(""),
 });

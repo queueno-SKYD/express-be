@@ -27,25 +27,27 @@ const checkPasswordStrength = (password: string): string[] => {
   }
 
   return errors;
-}
+};
 
 type JWTTokenType = {
-  userId: number
-}
+  userId: number;
+};
 
-const signJWTToken = (payload: JWTTokenType) : string => {
+const signJWTToken = (payload: JWTTokenType): string => {
   return JWT.sign(payload, env.JWT_SECRET);
-}
+};
 
-const generatePrivateRoomId = (socketId: string, senderid: number, receiverId: number): string =>
-  [socketId,senderid,receiverId].join(":");
-
+const generateOTP = () => {
+  // Generate a random 6-digit number
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  return otp;
+};
 export {
+  generateOTP,
   constant,
   checkPasswordStrength,
   encryptPassword,
   comparePassword,
   signJWTToken,
   JWTTokenType,
-  generatePrivateRoomId
 };

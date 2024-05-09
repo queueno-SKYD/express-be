@@ -5,6 +5,7 @@ import env from "./env";
 import { UserAuthenticate, UserAuthenticateWS } from "./middleware";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import path from "path";
 // import { HTTPResponse, HttpStatus } from "./httpResponse";
 
 const app = express();
@@ -16,6 +17,41 @@ app.use(cors({
   credentials: true,
   origin: ["http://localhost:3000"]
 }));
+
+app.use("../uploads", express.static(path.join(__dirname, "uploads")));
+
+app.get("/uploads/:fileId", (req, res) => {
+  const fileId = req.params.fileId;
+  const uploadsDir = path.join(__dirname, "..", "uploads");
+  const filePath = path.join(uploadsDir, fileId);
+  // Serve the file from the uploads directory
+  res.sendFile(filePath);
+});
+
+app.get("/uploads/images/:fileId", (req, res) => {
+  const fileId = req.params.fileId;
+  const uploadsDir = path.join(__dirname, "..", "uploads", "images");
+  const filePath = path.join(uploadsDir, fileId);
+  // Serve the file from the uploads directory
+  res.sendFile(filePath);
+});
+
+app.get("/uploads/media/:fileId", (req, res) => {
+  const fileId = req.params.fileId;
+  const uploadsDir = path.join(__dirname, "..", "uploads", "media");
+  const filePath = path.join(uploadsDir, fileId);
+  // Serve the file from the uploads directory
+  res.sendFile(filePath);
+});
+
+app.get("/uploads/others/:fileId", (req, res) => {
+  const fileId = req.params.fileId;
+  const uploadsDir = path.join(__dirname, "..", "uploads", "others");
+  const filePath = path.join(uploadsDir, fileId);
+  // Serve the file from the uploads directory
+  res.sendFile(filePath);
+});
+
 app.use(UserAuthenticate)
 const httpServer = createServer(app);
 const io = new Server(httpServer, {

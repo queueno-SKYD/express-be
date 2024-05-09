@@ -1,11 +1,12 @@
 import { Response, Request } from "express";
-import { RegisterUser, Me, GetAllUsers, SearchUsers } from "./user/user.controller";
+import { RegisterUser, Me, GetAllUsers, SearchUsers, ForgotPassword, VerifyOtp } from "./user/user.controller";
 import { Login } from "./auth/auth.controller";
 import { HTTPResponse, HttpStatus } from "./../httpResponse";
 import { UploadDocument, GetDocuments, GetDocument, DeleteDocument, EditDocument } from "./manageDocuments/manageDocuments.controller";
 import { GetShareDetails, GetShareDocumentsByOthers, RevokeAccess, ShareDocument, ShareDocumentWithMultipleUsers } from "./shareDocument/shareDocument.controller";
 import { DeleteUserByAdmin, EditUserByAdmin } from "./admin/admin.controller";
-import { CreateGroup } from "./chatGroup/chatGroup.controller";
+import { CreateGroup, GetAllUserGroups } from "./chatGroup/chatGroup.controller";
+import { AddMembers, MakeAdmin, GetAllMembers } from "./manageGroup/manageGroup.controller";
 
 const NotFound = async (_: Request, res: Response) => {
   return res.status(404).send(
@@ -33,4 +34,10 @@ export default {
   EditUserByAdmin,
   DeleteUserByAdmin,
   CreateGroup,
+  GetAllUserGroups,
+  AddMembers,
+  MakeAdmin,
+  ForgotPassword,
+  VerifyOtp,
+  GetAllMembers,
 };

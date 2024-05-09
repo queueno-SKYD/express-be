@@ -3,6 +3,7 @@ export const PathName = {
   Login: `/api/${version}/login`,
   Register: `/api/${version}/register`,
   Me: `/api/${version}/me`,
+  UploadFile: `/api/${version}/uploadFile`,
   AllUsers: `/api/${version}/manageUsers/getAllUsers`,
   DeleteUserByAdmin: `/api/${version}/manageUsers/deleteUserByAdmin`,
   searchUsers: `/api/${version}/manageUsers/search`,
@@ -19,7 +20,19 @@ export const PathName = {
   CreateGroup: `/api/${version}/chatService/createGroup`,
   EditUsersByAdmin: `/api/${version}/manageUsers/editUserByAdmin`,
   WebSocket: "/socket.io/*",
+  CreateGroup: `/api/${version}/chatService/createGroup`,
+  GetAllUserGroups: `/api/${version}/chatService/getAllUserGroups`,
+  AddMembers: `/api/${version}/chatService/group/addMembers`,
+  MakeAdmin: `/api/${version}/chatService/group/makeAdmin`,
+  GetAllMembers: `/api/${version}/chatService/group/getAllMembers`,
+  forgotPassword: `/api/${version}/users/forgotPassword`,
+  verifyOtp: `/api/${version}/users/verifyOtp`,
   NotFound: "/*",
 };
 
-export const PublicRoute = [PathName.Login, PathName.Register];
+export const PublicRoute = [
+  PathName.Login,
+  PathName.Register,
+  PathName.forgotPassword,
+  PathName.verifyOtp,
+];

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import controllers from "../controller";
 
-import { initGroupSocketIoEvents } from "../services/chat/personalChat.services";
+import { initGroupSocketIoEvents } from "../services/chat/groupChat.services";
 import { PathName } from "./pathName";
 import { Server } from "socket.io";
 import { uploadFile } from "../controller/fileUpload/uploadFile.controller";

@@ -3,14 +3,14 @@ import { SocketNamespace } from "../../websocket/namespace.socket";
 import { IMessage } from "./chat.types";
 import logger from "../../../logger";
 import {  UserQuery } from "../../query";
-import { personalChatMessageValidation } from "../../validation";
+import { chatMessageValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { UserAuthenticateWS } from "../../middleware";
 
 export const sendMessageHandler = (socket: Socket) => {
   socket.on("sendMessage", async (message: IMessage) => {
     // Validate message format
-    const { error } = personalChatMessageValidation.validate(message);
+    const { error } = chatMessageValidation.validate(message);
     if (error) {
       socket.emit(SocketNamespace.Error, new HTTPResponse({statusCode: HttpStatus.WARNING.code, httpStatus: HttpStatus.WARNING.status, message: error.message}))
     }

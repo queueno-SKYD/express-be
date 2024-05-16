@@ -26,6 +26,8 @@ export const PathName = {
   GetAllMembers: `/api/${version}/chatService/group/getAllMembers`,
   forgotPassword: `/api/${version}/users/forgotPassword`,
   verifyOtp: `/api/${version}/users/verifyOtp`,
+  getMessageById: `/api/${version}/chatService/getMessage`,
+  getGroupMessage: `/api/${version}/chatService/group/messages`,
   NotFound: "/*",
 };
 

@@ -3,7 +3,7 @@ import { SocketNamespace } from "../../websocket/namespace.socket";
 import { IMessage } from "./chat.types";
 import logger from "../../../logger";
 import { GroupChatQuery, GroupMessageModalQuery } from "../../query";
-import { personalChatMessageValidation } from "../../validation";
+import { chatMessageValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { UserAuthenticateWS } from "../../middleware";
 import { GroupMessageInput } from "../../model/groupMessageModel";
@@ -11,7 +11,7 @@ import { GroupMessageInput } from "../../model/groupMessageModel";
 export const sendGroupMessageHandler = (socket: Socket) => {
   socket.on("sendGroupMessage", async (message: IMessage) => {
     // Validate message format
-    const { error } = personalChatMessageValidation.validate(message);
+    const { error } = chatMessageValidation.validate(message);
     if (error) {
       socket.emit(SocketNamespace.Error, new HTTPResponse({statusCode: HttpStatus.WARNING.code, httpStatus: HttpStatus.WARNING.status, message: error.message}))
     }

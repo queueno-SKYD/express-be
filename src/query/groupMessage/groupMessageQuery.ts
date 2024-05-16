@@ -14,7 +14,7 @@ interface IGetGroupMessages {
 
 interface IGroupMessageModalQuery {
   save(input:GroupMessageInput): Promise<GroupMessageModel["messageId"]>;
-  get(messageId: GroupMessageModel["messageId"]): Promise<GroupMessageModel | null>;
+  get(userId: GroupMessageModel["senderId"], groupId: GroupMessageModel["recipientId"], messageId: GroupMessageModel["messageId"]): Promise<GroupMessageModel | null>;
   getGroupMessages(groupId: GroupMessageModel["recipientId"], userId: GroupMessageModel["senderId"], page: number, pageSize?: number): Promise<IGetGroupMessages>;
 }
 
@@ -41,11 +41,11 @@ class GroupMessageModalQuery implements IGroupMessageModalQuery {
     });
   }
 
-  public async get(messageId: GroupMessageModel["messageId"]): Promise<GroupMessageModel | null> {
+  public async get(userId: GroupMessageModel["senderId"], groupId: GroupMessageModel["recipientId"], messageId: GroupMessageModel["messageId"]): Promise<GroupMessageModel | null> {
     return new Promise((resolve, reject) => {
       pool.query<GroupMessageModel[]>(
         getMessageQuery,
-        [messageId],
+        [messageId, userId, groupId],
         (err, result) => {
           if (err) {
             logger.fatal(err)
@@ -68,7 +68,7 @@ class GroupMessageModalQuery implements IGroupMessageModalQuery {
       const offset = (page - 1) * (pageSize || QUERY_PAGINATION);
       pool.query<GroupMessageResponseModel[]>(
         getGroupMessagesQuery,
-        [groupId, userId, pageSize || QUERY_PAGINATION, offset],
+        [groupId, groupId, userId, pageSize || QUERY_PAGINATION, offset],
         async (err, result) => {
           if (err) {
             logger.fatal(err)

@@ -34,6 +34,8 @@ export const routes = (router: Router) => {
   router.post(PathName.forgotPassword, controllers.ForgotPassword);
   router.post(PathName.verifyOtp, controllers.VerifyOtp);
   router.post(PathName.GetAllMembers , controllers.GetAllMembers);
+  router.post(PathName.getMessageById, controllers.GetMessageById);
+  router.post(PathName.getGroupMessage, controllers.GetGroupMessages);
   router.all(PathName.NotFound, controllers.NotFound);
 };
 

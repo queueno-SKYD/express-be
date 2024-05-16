@@ -6,23 +6,27 @@ export const createGroupMessageQuery = `
 `;
 
 export const getGroupMessagesQuery = `
-  SELECT gm.*, u.firstName, u.lastName, u.imageUrl
-  FROM groupMessageTable gm
-  JOIN userTable u ON gm.senderId = u.userId
-  WHERE gm.recipientId = groupId
-    AND gm.senderId IN (
-      SELECT gmem.userId 
-      FROM groupMemberTable gmem
-      WHERE gmem.groupId = ? AND gmem.userId = ?
-    )
-  ORDER BY gm.sentAt DESC
+SELECT gm.*, u.firstName, u.lastName, u.imageUrl 
+FROM 
+groupMessageTable gm
+JOIN 
+userTable u ON gm.senderId = u.userId
+WHERE 
+gm.recipientId = ? -- Group ID
+AND EXISTS (
+    SELECT 1 
+    FROM groupMemberTable gmem 
+    WHERE gmem.groupId = ? -- Group ID (repeated) 
+      AND gmem.userId = ? -- Current user's ID
+)
+  ORDER BY gm.sendAt DESC
   LIMIT ? OFFSET ?
 ;
 `;
 
 export const getMessageQuery = `
   SELECT * 
-  FROM  groupMessageTable WHERE messageId = ?`
+  FROM  groupMessageTable WHERE messageId = ? and (senderId = ? or recipientId = ?)`
 ;
 
 export const getTotalQuery = (tableName: FileDatabase) => `

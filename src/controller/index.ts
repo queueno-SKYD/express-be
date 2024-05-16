@@ -7,6 +7,7 @@ import { GetShareDetails, GetShareDocumentsByOthers, RevokeAccess, ShareDocument
 import { DeleteUserByAdmin, EditUserByAdmin } from "./admin/admin.controller";
 import { CreateGroup, GetAllUserGroups } from "./groupChat/groupChat.controller";
 import { AddMembers, MakeAdmin, GetAllMembers } from "./manageGroup/manageGroup.controller";
+import { GetMessageById, GetGroupMessages } from "./groupChat/groupMessage.controller"
 
 const NotFound = async (_: Request, res: Response) => {
   return res.status(404).send(
@@ -40,4 +41,6 @@ export default {
   ForgotPassword,
   VerifyOtp,
   GetAllMembers,
+  GetMessageById,
+  GetGroupMessages,
 };

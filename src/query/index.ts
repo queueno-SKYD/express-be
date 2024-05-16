@@ -2,8 +2,8 @@ import UserQuery from "./user/userQuery";
 import DocumentQuery from "./document/documentQuery";
 import ShareDocumentQuery from "./shareDoc/shareDocQuery";
 import AdminQuery from "./admin/adminQuery";
-import ChatGroupQuery from "./chatGroup/chatGroupQuery";
-import ChatGroupMememberQuery from "./chatGroupMember/chatGroupMememberQuery";
+import GroupChatQuery from "./groupChat/groupChatQuery";
+import GroupChatMememberQuery from "./groupChatMember/groupChatMememberQuery";
 import GroupMessageModalQuery from "./groupMessage/groupMessageQuery";
 
 export {
@@ -11,7 +11,7 @@ export {
   DocumentQuery,
   AdminQuery,
   ShareDocumentQuery,
-  ChatGroupQuery,
-  ChatGroupMememberQuery,
+  GroupChatQuery,
+  GroupChatMememberQuery,
   GroupMessageModalQuery,
 };

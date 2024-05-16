@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { createGroupValidation, getGroupsValidation } from "../../validation";
-import { ChatGroupQuery} from "../../query";
+import { GroupChatQuery} from "../../query";
 
 export const CreateGroup = async (req: Request, res: Response) => {
   try {
@@ -16,7 +16,7 @@ export const CreateGroup = async (req: Request, res: Response) => {
     }
     //#endregion
     //#region create new group
-    const result = await ChatGroupQuery.save(user.userId, body);
+    const result = await GroupChatQuery.save(user.userId, body);
     if (result) {
       return res.status(200).send(
         new HTTPResponse({
@@ -63,7 +63,7 @@ export const GetAllUserGroups = async (req: Request, res: Response) => {
     }
     //#endregion
     //#region create new group
-    const result = await ChatGroupQuery.getAllUserGroup(user?.userId, body?.page, body?.pageSize, body?.query);
+    const result = await GroupChatQuery.getAllUserGroup(user?.userId, body?.page, body?.pageSize, body?.query);
     if (result) {
       return res.status(200).send(
         new HTTPResponse({

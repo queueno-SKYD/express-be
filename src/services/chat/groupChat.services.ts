@@ -2,7 +2,7 @@ import { Server, Socket } from "socket.io";
 import { SocketNamespace } from "../../websocket/namespace.socket";
 import { IMessage } from "./chat.types";
 import logger from "../../../logger";
-import { ChatGroupQuery, GroupMessageModalQuery } from "../../query";
+import { GroupChatQuery, GroupMessageModalQuery } from "../../query";
 import { personalChatMessageValidation } from "../../validation";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { UserAuthenticateWS } from "../../middleware";
@@ -18,7 +18,7 @@ export const sendGroupMessageHandler = (socket: Socket) => {
     // Validate user membership, permissions,
     const user = socket.data.user;
     try {
-      const receiver = await ChatGroupQuery.getUserGroupByMember(message.recipientId, user.userId)
+      const receiver = await GroupChatQuery.getUserGroupByMember(message.recipientId, user.userId)
       if (receiver) {
 
         const roomId = receiver.groupId + "gid";
@@ -61,7 +61,7 @@ export const sendGroupMessageHandler = (socket: Socket) => {
     const user = socket.data.user;
     
     try {
-      const receiver = await ChatGroupQuery.getUserGroupByMember(Number(groupId), user.userId)
+      const receiver = await GroupChatQuery.getUserGroupByMember(Number(groupId), user.userId)
       if (receiver) {
         const roomId = receiver.groupId + "gid";
         logger.info(`userId: ${user.userId} joined the groupid: ${groupId}`)

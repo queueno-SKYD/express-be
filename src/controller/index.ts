@@ -5,7 +5,7 @@ import { HTTPResponse, HttpStatus } from "./../httpResponse";
 import { UploadDocument, GetDocuments, GetDocument, DeleteDocument, EditDocument } from "./manageDocuments/manageDocuments.controller";
 import { GetShareDetails, GetShareDocumentsByOthers, RevokeAccess, ShareDocument, ShareDocumentWithMultipleUsers } from "./shareDocument/shareDocument.controller";
 import { DeleteUserByAdmin, EditUserByAdmin } from "./admin/admin.controller";
-import { CreateGroup, GetAllUserGroups } from "./chatGroup/chatGroup.controller";
+import { CreateGroup, GetAllUserGroups } from "./groupChat/groupChat.controller";
 import { AddMembers, MakeAdmin, GetAllMembers } from "./manageGroup/manageGroup.controller";
 
 const NotFound = async (_: Request, res: Response) => {

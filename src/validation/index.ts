@@ -3,8 +3,8 @@ import { createDocumentValidation, editDocumentParamsValidation, getDocumentPara
 import { getShareDetailsInputParamsValidation, getShareDocumentByOthersParamValidation, shareDocumentValidation, shareMultiDocumentValidation } from "./shareDoc/shareDoc.validation";
 
 import { personalChatMessageValidation } from "./chatMessage/chat.validation";
-import { createGroupValidation, getGroupsValidation } from "./chatGroup/chatGroup.validation";
-import { addNewGroupMembersValidation, makeAdminValidation, getAllMembersValidation } from "./chatGroupMember/chatGroupMember.validation";
+import { createGroupValidation, getGroupsValidation } from "./groupChat/groupChat.validation";
+import { addNewGroupMembersValidation, makeAdminValidation, getAllMembersValidation } from "./groupChatMember/groupChatMember.validation";
 import { isOTPExpired } from "./otp";
 
 export {

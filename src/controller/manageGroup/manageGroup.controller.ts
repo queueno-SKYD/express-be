@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { HTTPResponse, HttpStatus } from "../../httpResponse";
 import { addNewGroupMembersValidation, getAllMembersValidation, makeAdminValidation } from "../../validation";
-import { ChatGroupMememberQuery} from "../../query";
+import { GroupChatMememberQuery} from "../../query";
 
 export const AddMembers = async (req: Request, res: Response) => {
   try {
@@ -17,7 +17,7 @@ export const AddMembers = async (req: Request, res: Response) => {
     //#endregion
   
     //#region check if admin then add new members
-    const isAdmin = await ChatGroupMememberQuery.isAdmin(body?.groupId, user?.userId)
+    const isAdmin = await GroupChatMememberQuery.isAdmin(body?.groupId, user?.userId)
     if (!isAdmin) {
       return res.status(400).send(
         new HTTPResponse({
@@ -34,7 +34,7 @@ export const AddMembers = async (req: Request, res: Response) => {
         isAdmin: false
       }
     })
-    const result = await ChatGroupMememberQuery.saveAll(body?.groupId, members);
+    const result = await GroupChatMememberQuery.saveAll(body?.groupId, members);
     if (result) {
       return res.status(200).send(
         new HTTPResponse({
@@ -81,7 +81,7 @@ export const MakeAdmin = async (req: Request, res: Response) => {
     }
     //#endregion
     //#region make admin
-    const isAdmin = await ChatGroupMememberQuery.isAdmin(body?.groupId, user?.userId)
+    const isAdmin = await GroupChatMememberQuery.isAdmin(body?.groupId, user?.userId)
     if (!isAdmin) {
       return res.status(400).send(
         new HTTPResponse({
@@ -92,7 +92,7 @@ export const MakeAdmin = async (req: Request, res: Response) => {
         })
       );
     }
-    const result = await ChatGroupMememberQuery.makeAdmin(body?.groupId, body?.userId, body?.makeAdmin);
+    const result = await GroupChatMememberQuery.makeAdmin(body?.groupId, body?.userId, body?.makeAdmin);
     if (result) {
       return res.status(200).send(
         new HTTPResponse({
@@ -141,7 +141,7 @@ export const GetAllMembers = async (req: Request, res: Response) => {
   
     //#region check if admin then add new members
 
-    const result = await ChatGroupMememberQuery.getAll(body?.groupId, user?.userId, body?.page, body?.pageSize);
+    const result = await GroupChatMememberQuery.getAll(body?.groupId, user?.userId, body?.page, body?.pageSize);
     if (result) {
       return res.status(200).send(
         new HTTPResponse({

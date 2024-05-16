@@ -1,12 +1,12 @@
 import { RowDataPacket } from "mysql2";
 import { MessageDeliveryStatus } from "../services/chat/chat.types";
 import UserModel from "./userModel";
-import ChatGroupModel from "./chatGroupModel";
+import GroupChatModel from "./groupChatModel";
 
 export default interface GroupMessageModel extends RowDataPacket {
   messageId: number;
   senderId: UserModel["userId"];
-  recipientId: ChatGroupModel["adminId"];
+  recipientId: GroupChatModel["adminId"];
   messageContentId?: number;
   message: string;
   deliveryStatus: MessageDeliveryStatus;
@@ -16,7 +16,7 @@ export default interface GroupMessageModel extends RowDataPacket {
 export interface GroupMessageResponseModel extends RowDataPacket {
   messageId: number;
   senderId: UserModel["userId"];
-  recipientId: ChatGroupModel["adminId"];
+  recipientId: GroupChatModel["adminId"];
   messageContentId?: number;
   message: string;
   deliveryStatus: MessageDeliveryStatus;
@@ -29,7 +29,7 @@ export interface GroupMessageResponseModel extends RowDataPacket {
 export interface GroupMessageInput {
   message: string;
   messageContentId?: number;
-  recipientId: ChatGroupModel["adminId"];
+  recipientId: GroupChatModel["adminId"];
   senderId: UserModel["userId"];
   sendAt: Date;
 }

@@ -2,33 +2,33 @@ import { ResultSetHeader } from "mysql2";
 import pool from "../../database";
 import logger from "../../../logger";
 import GroupMemberModel from "../../model/groupMemberModel";
-import { GetAllGroupMembers, SaveGroupAllMemberQuery, SaveGroupMemberQuery, getTotalMember, isAdminQuery, makeAdminQuery } from "./chatGroupMemember.sql";
+import { GetAllGroupMembers, SaveGroupAllMemberQuery, SaveGroupMemberQuery, getTotalMember, isAdminQuery, makeAdminQuery } from "./groupChatMemember.sql";
 import { QUERY_PAGINATION } from "../../util/consts";
 
-interface ISaveChatGroupMember {
+interface ISaveGroupChatMember {
   userId: GroupMemberModel["userId"];
   isAdmin?: GroupMemberModel["isAdmin"]
 }
 
-interface IChatGroupMembers {
+interface IGroupChatMembers {
   data: GroupMemberModel[];
   pageSize: number;
   page: number;
   total: number;
 }
 
-interface IChatGroupModelQuery {
-  saveAll(groupId: GroupMemberModel["groupId"], members: ISaveChatGroupMember[]): Promise<boolean>;
-  save(groupId: GroupMemberModel["groupId"], member: ISaveChatGroupMember): Promise<boolean>;
-  getAll(groupId: GroupMemberModel["groupId"], userId: GroupMemberModel["userId"], page: number, pageSize?: number): Promise<IChatGroupMembers | undefined>;
+interface IGroupChatModelQuery {
+  saveAll(groupId: GroupMemberModel["groupId"], members: ISaveGroupChatMember[]): Promise<boolean>;
+  save(groupId: GroupMemberModel["groupId"], member: ISaveGroupChatMember): Promise<boolean>;
+  getAll(groupId: GroupMemberModel["groupId"], userId: GroupMemberModel["userId"], page: number, pageSize?: number): Promise<IGroupChatMembers | undefined>;
   getTotal(groupId: GroupMemberModel["groupId"]): Promise<number>
   isAdmin(groupId: GroupMemberModel["groupId"], userId: GroupMemberModel["userId"]): Promise<boolean>;
   makeAdmin(groupId: GroupMemberModel["groupId"], userId: GroupMemberModel["userId"], makeAdmin: boolean): Promise<boolean>;
 }
 
-class ChatGroupMemberQuery implements IChatGroupModelQuery {
+class GroupChatMemberQuery implements IGroupChatModelQuery {
 
-  public async saveAll(groupId: GroupMemberModel["groupId"], members: ISaveChatGroupMember[]): Promise<boolean> {
+  public async saveAll(groupId: GroupMemberModel["groupId"], members: ISaveGroupChatMember[]): Promise<boolean> {
     const placeholders = members.map(() => "(?, ?, ?)").join(", ");
     // Flatten the array of values
     // (documentId, sharedWithUserId, permissions)
@@ -55,7 +55,7 @@ class ChatGroupMemberQuery implements IChatGroupModelQuery {
     });
   }
 
-  public async save(groupId: GroupMemberModel["groupId"], member: ISaveChatGroupMember): Promise<boolean> {
+  public async save(groupId: GroupMemberModel["groupId"], member: ISaveGroupChatMember): Promise<boolean> {
     return new Promise((resolve, reject) => {
       pool.query<ResultSetHeader>(
         SaveGroupMemberQuery,
@@ -78,7 +78,7 @@ class ChatGroupMemberQuery implements IChatGroupModelQuery {
     });
   }
 
-  public async getAll(groupId: GroupMemberModel["groupId"], userId: GroupMemberModel["userId"], page: number, pageSize?: number): Promise<IChatGroupMembers | undefined> {
+  public async getAll(groupId: GroupMemberModel["groupId"], userId: GroupMemberModel["userId"], page: number, pageSize?: number): Promise<IGroupChatMembers | undefined> {
     return new Promise((resolve, reject) => {
       const offset = (page - 1) * (pageSize || QUERY_PAGINATION);
       pool.query<GroupMemberModel[]>(
@@ -96,7 +96,7 @@ class ChatGroupMemberQuery implements IChatGroupModelQuery {
             }
             try {
               const total = await this.getTotal(groupId)
-              const queryResponse: IChatGroupMembers = {
+              const queryResponse: IGroupChatMembers = {
                 data: result,
                 page: page,
                 pageSize: pageSize || QUERY_PAGINATION,
@@ -170,4 +170,4 @@ class ChatGroupMemberQuery implements IChatGroupModelQuery {
   }
 }
 
-export default new ChatGroupMemberQuery();
+export default new GroupChatMemberQuery();

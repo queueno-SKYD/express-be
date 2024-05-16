@@ -1,31 +1,31 @@
 import { ResultSetHeader } from "mysql2";
 import pool from "../../database";
 import logger from "../../../logger";
-import ChatGroupModel from "../../model/chatGroupModel";
-import { GetAllGroupsForUser, GetGroupByMember, GetGroupQuery, GetTotalGroupsForUser, SaveGroupQuery } from "./chatGroup.sql";
-import { ChatGroupMememberQuery } from "../../query";
+import GroupChatModel from "../../model/groupChatModel";
+import { GetAllGroupsForUser, GetGroupByMember, GetGroupQuery, GetTotalGroupsForUser, SaveGroupQuery } from "./groupChat.sql";
+import { GroupChatMememberQuery } from "..";
 import { QUERY_PAGINATION } from "../../util/consts";
 
-interface ISaveChatGroup {
-  name: ChatGroupModel["name"];
-  description?: ChatGroupModel["description"];
-  profileImageUrl?: ChatGroupModel["profileImageUrl"];
-  members?: ChatGroupModel["adminId"][];
+interface ISaveGroupChat {
+  name: GroupChatModel["name"];
+  description?: GroupChatModel["description"];
+  profileImageUrl?: GroupChatModel["profileImageUrl"];
+  members?: GroupChatModel["adminId"][];
 }
 
 interface IAllUserGroups {
-  data: ChatGroupModel[];
+  data: GroupChatModel[];
   pageSize: number;
   page: number;
   total: number;
 }
 
-interface IChatGroupModelQuery {
-  save(adminId: ChatGroupModel["adminId"], groupDetails: ISaveChatGroup): Promise<ChatGroupModel>;
-  get(groupId: ChatGroupModel["groupId"]): Promise<ChatGroupModel | undefined>;
-  getAllUserGroup(userId: ChatGroupModel["adminId"], page: number, pageSize?: number, query?: string): Promise<IAllUserGroups | undefined>;
-  getTotal(userId: ChatGroupModel["adminId"]): Promise<number>;
-  getUserGroupByMember(groupId: ChatGroupModel["groupId"], userId: ChatGroupModel["adminId"]): Promise<ChatGroupModel | undefined>;
+interface IGroupChatModelQuery {
+  save(adminId: GroupChatModel["adminId"], groupDetails: ISaveGroupChat): Promise<GroupChatModel>;
+  get(groupId: GroupChatModel["groupId"]): Promise<GroupChatModel | undefined>;
+  getAllUserGroup(userId: GroupChatModel["adminId"], page: number, pageSize?: number, query?: string): Promise<IAllUserGroups | undefined>;
+  getTotal(userId: GroupChatModel["adminId"]): Promise<number>;
+  getUserGroupByMember(groupId: GroupChatModel["groupId"], userId: GroupChatModel["adminId"]): Promise<GroupChatModel | undefined>;
   // getDocuments(ownerId: DocumentModel["ownerId"], page: number, pageSize: number): Promise<IGetDocuments>;
   // getTotal(ownerId: DocumentModel["ownerId"]): Promise<number>;
   // deleteDocument(fileId: DocumentModel["fileId"], ownerId: DocumentModel["ownerId"], deletedBy: DocumentModel["ownerId"]): Promise<number>;
@@ -35,9 +35,9 @@ interface IChatGroupModelQuery {
   // deleteAll(): Promise<number>;
 }
 
-class ChatGroupQuery implements IChatGroupModelQuery {
+class GroupChatQuery implements IGroupChatModelQuery {
 
-  public async save(adminId: ChatGroupModel["adminId"], groupDetails: ISaveChatGroup): Promise<ChatGroupModel> {
+  public async save(adminId: GroupChatModel["adminId"], groupDetails: ISaveGroupChat): Promise<GroupChatModel> {
     return new Promise((resolve, reject) => {
       pool.query<ResultSetHeader>(
         SaveGroupQuery,
@@ -48,7 +48,7 @@ class ChatGroupQuery implements IChatGroupModelQuery {
             reject(err)
           } else {
             const groupId = result.insertId;
-            logger.info({createdChatGroupId: groupId}, "group created")
+            logger.info({createdGroupChatId: groupId}, "group created")
             //# region create member
             const members = groupDetails?.members || []
             // add creater as admin member
@@ -58,7 +58,7 @@ class ChatGroupQuery implements IChatGroupModelQuery {
                 return {userId: id, isAdmin: id === adminId}
               })
             ]
-            const isAdded = await ChatGroupMememberQuery.saveAll(groupId, allMemberToAdd)
+            const isAdded = await GroupChatMememberQuery.saveAll(groupId, allMemberToAdd)
             // if not added delete the group
             if (isAdded) {
               logger.info("all added")
@@ -79,9 +79,9 @@ class ChatGroupQuery implements IChatGroupModelQuery {
     });
   }
 
-  public async get(groupId: ChatGroupModel["groupId"]): Promise<ChatGroupModel | undefined> {
+  public async get(groupId: GroupChatModel["groupId"]): Promise<GroupChatModel | undefined> {
     return new Promise((resolve, reject) => {
-      pool.query<ChatGroupModel[]>(
+      pool.query<GroupChatModel[]>(
         GetGroupQuery,
         [groupId],
         (err, result) => {
@@ -102,10 +102,10 @@ class ChatGroupQuery implements IChatGroupModelQuery {
     });
   }
 
-  public async getAllUserGroup(userId: ChatGroupModel["userId"], page: number, pageSize?: number, query?: string): Promise<IAllUserGroups| undefined> {
+  public async getAllUserGroup(userId: GroupChatModel["userId"], page: number, pageSize?: number, query?: string): Promise<IAllUserGroups| undefined> {
     return new Promise((resolve, reject) => {
       const offset = (page - 1) * (pageSize || QUERY_PAGINATION);
-      pool.query<ChatGroupModel[]>(
+      pool.query<GroupChatModel[]>(
         GetAllGroupsForUser,
         [userId, query, pageSize || QUERY_PAGINATION, offset],
         async (err, result) => {
@@ -137,9 +137,9 @@ class ChatGroupQuery implements IChatGroupModelQuery {
     })
   }
 
-  getUserGroupByMember(groupId: ChatGroupModel["groupId"], userId: ChatGroupModel["adminId"]): Promise<ChatGroupModel | undefined> {
+  getUserGroupByMember(groupId: GroupChatModel["groupId"], userId: GroupChatModel["adminId"]): Promise<GroupChatModel | undefined> {
     return new Promise((resolve, reject) => {
-      pool.query<ChatGroupModel[]>(
+      pool.query<GroupChatModel[]>(
         GetGroupByMember,
         [groupId, userId],
         async (err, result) => {
@@ -158,7 +158,7 @@ class ChatGroupQuery implements IChatGroupModelQuery {
     })
   }
 
-  public async getTotal(userId: ChatGroupModel["adminId"]): Promise<number> {
+  public async getTotal(userId: GroupChatModel["adminId"]): Promise<number> {
     return new Promise((resolve, reject) => {
       pool.query(
         GetTotalGroupsForUser,
@@ -181,4 +181,4 @@ class ChatGroupQuery implements IChatGroupModelQuery {
   }
 }
 
-export default new ChatGroupQuery();
+export default new GroupChatQuery();

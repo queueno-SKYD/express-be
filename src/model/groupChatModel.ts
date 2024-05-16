@@ -1,6 +1,6 @@
 import { RowDataPacket } from "mysql2";
 
-export default interface ChatGroupModel extends RowDataPacket {
+export default interface GroupChatModel extends RowDataPacket {
   groupId: number;
   name: string;
   description?: string;

@@ -17,7 +17,7 @@ export const UserAuthenticate = (req: Request, res: Response, next: NextFunction
 
   const token = req.header("Authorization");
   if (!token) {
-    logger.fatal("Token not found")
+    logger.fatal(`Token not found in API: ${req.path}`)
     return res.status(401).send(
       new HTTPResponse({statusCode: HttpStatus.UN_AUTHORISED.code, httpStatus: HttpStatus.UN_AUTHORISED.status, message: "Unauthorised! access"})
     );

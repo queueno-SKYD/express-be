@@ -102,7 +102,7 @@ class ChatGroupMemberQuery implements IChatGroupModelQuery {
                 pageSize: pageSize || QUERY_PAGINATION,
                 total: total,
               }
-              logger.info(result, `found members for groupId: ${groupId}`)
+              logger.info(`found members for groupId: ${groupId}`)
               resolve(queryResponse)
             } catch (error) {
               reject({message: `Error while getting members for groupId: ${groupId}`, error})

@@ -112,16 +112,6 @@ CREATE TABLE IF NOT EXISTS groupMemberTable (
   CONSTRAINT id_unique_member UNIQUE (groupId, userId)
 );
 
-CREATE TABLE IF NOT EXISTS groupChatTable (
-    chatId BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    senderId BIGINT NOT NULL,
-    message TEXT NOT NULL,
-    groupId BIGINT NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (groupId) REFERENCES groupTable(groupId),
-    FOREIGN KEY (senderId) REFERENCES groupMemberTable(memberId)
-);
-
 CREATE TABLE IF NOT EXISTS personalChatTable (
   personalChatId BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
   userId1 BIGINT UNSIGNED NOT NULL,
@@ -139,24 +129,41 @@ CREATE TABLE IF NOT EXISTS personalChatTable (
 
 
 
-CREATE TABLE IF NOT EXISTS messageTable (
+CREATE TABLE IF NOT EXISTS groupMessageTable (
   messageId BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
   senderId BIGINT UNSIGNED NOT NULL,
-  recipientType VARCHAR(255) NOT NULL,
+  -- recipientType ENUM('group', 'personal') NOT NULL,
   recipientId BIGINT UNSIGNED NOT NULL,
-  messageContentId BIGINT UNSIGNED NOT NULL, -- Assuming you have a separate message_content_table
-  msg VARCHAR(255) NOT NULL,
+  -- messageContentId BIGINT UNSIGNED NOT NULL, -- Assuming you have a separate message_content_table
+  messageContentId BIGINT UNSIGNED DEFAULT NULL,
+  message VARCHAR(255) NOT NULL,
   deliveryStatus ENUM('sent', 'delivered', 'read') NOT NULL DEFAULT 'sent',
-  sentAt DATETIME NOT NULL,
+  sendAt DATETIME NOT NULL,
   FOREIGN KEY (senderId) REFERENCES userTable(userId),
-  FOREIGN KEY (messageContentId) REFERENCES messageContentTable(messageContentId),
+  -- FOREIGN KEY (messageContentId) REFERENCES messageContentTable(messageContentId),
   -- Add foreign key constraint for recipient_id based on recipient_type
-  CONSTRAINT fkGroupRecipient FOREIGN KEY (recipientId) REFERENCES groupTable(groupId) ON DELETE CASCADE,
+  CONSTRAINT fkGroupRecipient FOREIGN KEY (recipientId) REFERENCES groupTable(groupId) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS personalMessageTable (
+  messageId BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  senderId BIGINT UNSIGNED NOT NULL,
+  -- recipientType ENUM('group', 'personal') NOT NULL,
+  recipientId BIGINT UNSIGNED NOT NULL,
+  -- messageContentId BIGINT UNSIGNED NOT NULL, -- Assuming you have a separate message_content_table
+  messageContentId BIGINT UNSIGNED DEFAULT NULL,
+  message VARCHAR(255) NOT NULL,
+  deliveryStatus ENUM('sent', 'delivered', 'read') NOT NULL DEFAULT 'sent',
+  sendAt DATETIME NOT NULL,
+  FOREIGN KEY (senderId) REFERENCES userTable(userId),
+  -- FOREIGN KEY (messageContentId) REFERENCES messageContentTable(messageContentId),
+  -- Add foreign key constraint for recipient_id based on recipient_type
   CONSTRAINT fkPersonalRecipient FOREIGN KEY (recipientId) REFERENCES personalChatTable(personalChatId) ON DELETE CASCADE
 );
 
-ALTER TABLE messageTable 
+ALTER TABLE groupMessageTable 
 MODIFY COLUMN recipientType ENUM('group', 'personal') NOT NULL;
+groupMessageTable_ibfk_2
 
 CREATE TABLE IF NOT EXISTS messageContentTable (
   messageContentId BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,

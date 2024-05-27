@@ -6,6 +6,7 @@ import { UserAuthenticate } from "./middleware";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import path from "path";
+import { getDatabase } from "./databasePS";
 // import { HTTPResponse, HttpStatus } from "./httpResponse";
 
 const app = express();
@@ -73,5 +74,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 httpServer.listen(env.EXPRESS_PORT ,async () => {
+  getDatabase();
   console.log("INFO :: Webserver started on port " + env.EXPRESS_PORT);
 });

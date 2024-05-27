@@ -13,6 +13,7 @@ interface envType {
   EXPRESS_PORT: number;
   GMAIL : string;
   GMAIL_PASSWORD : string;
+  POSTGRESS_SQL_URL : string;
 }
 
 const env: envType = { 
@@ -26,7 +27,8 @@ const env: envType = {
   ENCRYPTION_SALT_ROUND: Number(process.env.ENCRYPTION_SALT_ROUND),
   EXPRESS_PORT: Number(process.env.EXPRESS_PORT) || 3001,
   GMAIL : process.env.GMAIL || "",
-  GMAIL_PASSWORD : process.env.GMAIL_PASSWORD || ""
+  GMAIL_PASSWORD : process.env.GMAIL_PASSWORD || "",
+  POSTGRESS_SQL_URL : process.env.POSTGRESS_SQL_URL || ""
 };
 
 export default env;

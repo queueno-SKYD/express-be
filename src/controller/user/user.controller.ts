@@ -12,7 +12,7 @@ import JWT from "jsonwebtoken";
 import env from "./../../env";
 import { sendResetPasswordMail } from "../../services";
 import otpQuery from "../../query/otp/otpQuery";
-import { UserQuery } from "queryPS";
+import { UserQuery } from "../../queryPS";
 
 export const RegisterUser = async (req: Request, res: Response) => {
   const body = req.body;

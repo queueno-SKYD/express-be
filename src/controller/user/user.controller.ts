@@ -60,7 +60,7 @@ export const RegisterUser = async (req: Request, res: Response) => {
     );
     res.cookie("jwt", token, {
       // keep cookie in node.js backend
-      // httpOnly: true,
+      httpOnly: true,
       secure:true,
       maxAge: 24 * 60 * 60 * 1000, //1day
     });

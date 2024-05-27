@@ -73,7 +73,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("INFO :: Root route called");
 });
 
-httpServer.listen(env.EXPRESS_PORT ,async () => {
+httpServer.listen(env.EXPRESS_PORT || 4000 ,async () => {
   getDatabase();
   console.log("INFO :: Webserver started on port " + env.EXPRESS_PORT);
 });

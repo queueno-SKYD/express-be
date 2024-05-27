@@ -25,7 +25,7 @@ const env: envType = {
   MYSQL_CONNECTION_LIMIT: Number(process.env.MYSQL_CONNECTION_LIMIT ) || 12,
   JWT_SECRET: process.env.JWT_SECRET || "secreatkeyforJWT",
   ENCRYPTION_SALT_ROUND: Number(process.env.ENCRYPTION_SALT_ROUND),
-  EXPRESS_PORT: Number(process.env.EXPRESS_PORT) || 3001,
+  EXPRESS_PORT: Number(process.env.EXPRESS_PORT) || 4000,
   GMAIL : process.env.GMAIL || "",
   GMAIL_PASSWORD : process.env.GMAIL_PASSWORD || "",
   POSTGRESS_SQL_URL : process.env.POSTGRESS_SQL_URL || ""

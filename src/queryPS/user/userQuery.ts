@@ -3,7 +3,7 @@ import logger from "../../../logger";
 import { createUserQuery, deleteUserQuery, getUserAllQuery, getUserQuery, hardDeleteUserQuery, updateUserQuery, getAllUserQuery, searchUsersQuery, getUserQueryByEmailId, updatePasswordQuery } from "./userQuery.sql";
 import { QUERY_PAGINATION } from "../../util/consts";
 import { QueryResult, QueryResultBase } from "pg";
-import pool from "databasePS";
+import pool from "../../databasePS";
 
 interface IUserModalQuery {
   save(user: UserModel): Promise<UserModel>;
@@ -24,7 +24,7 @@ class UserModalQuery implements IUserModalQuery {
       pool.query<UserModel>(
         createUserQuery,
         [user.firstName, user?.lastName, user.email, user?.imageURL, user?.createdBy, user.password, user?.userType || 0],
-        async (err, result:QueryResultBase) => {
+        async (err) => {
           if (err) {
             logger.fatal(err.message)
             reject(err)

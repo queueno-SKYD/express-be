@@ -29,7 +29,6 @@ UPDATE userTable SET deleted = $1 WHERE userId = $2;
 
 `;
 
-/** get All User with Pagination  */
 export const getAllUserQuery = `
 SELECT userId, firstName, lastName, email, imageURL, createdAt, createdBy, deleted, deleteBy, userType
 FROM userTable

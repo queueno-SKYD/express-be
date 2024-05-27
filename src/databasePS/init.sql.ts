@@ -22,7 +22,7 @@ export enum otpTable {
   otptype = "otptype",
 }
 
-export const CreateUsers = `CREATE TABLE IF NOT EXISTS usertable (
+export const CreateUsers = `CREATE TABLE IF NOT EXISTS userTable (
   userId BIGSERIAL PRIMARY KEY,
   firstName VARCHAR(255) DEFAULT NULL,
   lastName VARCHAR(255) DEFAULT NULL,

@@ -1,4 +1,4 @@
-### Frontend Repo:- [link](https://github.com/queueno-SKYD/express-be)
+### Frontend Repo:- [link](https://github.com/queueno-SKYD/SKYD-Portal)
 
 ### API Endpoint
 
